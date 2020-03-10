@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="flex flex-col h-screen">
     <Header style="position: fixed;" class="w-full" />
-    <div class="flex-grow flex flex-row mt-16" style="background-color: #F0F0F0;">
+    <div class="flex-grow flex flex-row mt-12" style="background-color: #F0F0F0;">
       <LeftSidebar class="relative z-20" style="position: fixed;" />
       <PageContent class="relative z-10" />
     </div>
@@ -35,12 +35,24 @@ export default {
 @import "~bulma/sass/utilities/_all";
 
 // Set your colors
-$primary: #285795;
+$primary: #5a3069;
 $primary-invert: findColorInvert($primary);
-$primary-dark: #234b80;
+$dark: #3f4246;
+$dark-invert: findColorInvert($dark);
+$info: #5698d2;
+$info-invert: findColorInvert($info);
+$success: #9a9a08;
+$success-invert: findColorInvert($success);
+$warning: #c8a019;
+$warning-invert: findColorInvert($warning);
+$danger: #b4153a;
+$danger-invert: findColorInvert($danger);
+$primary-dark: #3f4246;
 $primary-dark-invert: findColorInvert($primary-dark);
-$accent: #ee7623;
+$accent: #5698d2;
 $accent-invert: findColorInvert($accent);
+
+$title-color: #FFFFFF;
 
 // Set font
 $family-primary: "Work Sans";

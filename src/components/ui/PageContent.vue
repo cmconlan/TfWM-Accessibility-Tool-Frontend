@@ -1,44 +1,24 @@
 <template>
   <div class="w-full h-full ml-64">
-    <PageHeader class="relative z-10" />
-    <div class="columns h-full">
-      <div
-        id="main-content"
-        class="column overflow-auto"
-        :class="rightSidebarShow ? 'is-10' : 'is-12'"
-      >
-        <transition name="header-fade" mode="out-in">
-          <Home class="m-8" v-if="page == 'home'" />
-        </transition>
+    <transition name="header-fade" mode="out-in">
+      <div class="w-full h-full">
+        <l-map
+          class="w-32 h-32"
+          :zoom="3"
+          :center="[47.413220, -1.219482]"
+        >
+        </l-map>
       </div>
-      <div class="column is-2">
-        <RightSidebar />
-      </div>
-    </div>
+    </transition>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
-import Home from "@/views/Home";
-import PageHeader from "@/components/ui/PageHeader";
-import RightSidebar from "@/components/ui/RightSidebar";
+import { LMap } from 'vue2-leaflet';
 
 export default {
   components: {
-    PageHeader,
-    Home,
-    RightSidebar
+    LMap
   },
-  computed: {
-    ...mapGetters(["page", "rightSidebarShow"])
-  }
 };
 </script>
-
-<style>
-#main-content {
-  transition: width 0.3s;
-}
-</style>

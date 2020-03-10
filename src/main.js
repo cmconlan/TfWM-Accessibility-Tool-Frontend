@@ -5,6 +5,8 @@ import store from "./store";
 import Moment from "moment";
 import router from "./router";
 
+import 'leaflet/dist/leaflet.css';
+
 Vue.use(Buefy);
 
 Vue.filter("formatDate", function(value) {
