@@ -24,6 +24,12 @@ export default {
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
+<style>
+html {
+  overflow: hidden!important;
+}
+</style>
+
 <style lang="scss">
 // Import Tailwind
 @import url("https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css");
