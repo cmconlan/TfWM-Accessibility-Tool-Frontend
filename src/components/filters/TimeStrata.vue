@@ -1,6 +1,15 @@
 <template>
   <div class="p-4">
-    Time Strata
+    <b-field label="Time Strata"></b-field>
+
+    <b-field
+      v-for="timeStrataValue in metaTimeStrata"
+      :key="timeStrataValue.key"
+    >
+      <b-radio v-model="timeStrata" :native-value="timeStrataValue.key">
+        {{ timeStrataValue.value }}
+      </b-radio>
+    </b-field>
 
     <a class="button is-danger mt-4" @click="remove">
       <TrashCan />
@@ -14,6 +23,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { EventBus } from "@/event-bus.js";
 
 import Check from "vue-material-design-icons/Check.vue";
@@ -23,6 +33,19 @@ export default {
   components: {
     Check,
     TrashCan
+  },
+  computed: {
+    ...mapGetters({
+      metaTimeStrata: "metaStore/timeStrata"
+    }),
+    timeStrata: {
+      get() {
+        return this.$store.state.parameterStore.timeStrata;
+      },
+      set(value) {
+        this.$store.commit("parameterStore/setTimeStrata", value);
+      }
+    }
   },
   methods: {
     apply() {

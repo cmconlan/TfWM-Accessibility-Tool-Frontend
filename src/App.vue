@@ -1,7 +1,10 @@
 <template>
   <div id="app" class="flex flex-col h-screen">
     <Header style="position: fixed;" class="w-full" />
-    <div class="flex-grow flex flex-row mt-12" style="background-color: #F0F0F0;">
+    <div
+      class="flex-grow flex flex-row mt-12"
+      style="background-color: #F0F0F0;"
+    >
       <LeftSidebar class="relative z-20" style="position: fixed;" />
       <PageContent class="relative z-10" />
     </div>
@@ -20,7 +23,9 @@ export default {
     LeftSidebar
   },
   mounted() {
-    this.$store.dispatch("metaStore/fetchAllMetaData");
+    this.$store.dispatch("metaStore/fetchAllMetaData").then(() => {
+      this.$store.dispatch("parameterStore/initialiseParameters");
+    });
   }
 };
 </script>
@@ -29,7 +34,7 @@ export default {
 
 <style>
 html {
-  overflow: hidden!important;
+  overflow: hidden !important;
 }
 </style>
 
@@ -61,7 +66,7 @@ $primary-dark-invert: findColorInvert($primary-dark);
 $accent: #5698d2;
 $accent-invert: findColorInvert($accent);
 
-$title-color: #FFFFFF;
+$title-color: #ffffff;
 
 // Set font
 $family-primary: "Work Sans";

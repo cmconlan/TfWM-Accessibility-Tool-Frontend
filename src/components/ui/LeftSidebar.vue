@@ -1,11 +1,11 @@
 <template>
   <transition name="slide-fade" mode="out-in">
     <div
-      class="w-64 h-full has-background-white text-white"
+      class="w-64 h-full has-background-white"
       style="box-shadow: 3px 0px 20px 10px rgba(0,0,0,.25)"
       key="home"
     >
-      <img src="@/assets/images/window_device.png" class="w-56 m-auto mb-8" />
+      <img src="@/assets/images/window_device.png" class="w-56 m-auto" />
       <transition name="slide-fade" mode="out-in">
         <b-menu v-if="!currentFilter">
           <b-menu-list>
@@ -38,44 +38,41 @@
         </b-menu>
 
         <DemographicFilter
-          else-if="currentFilter == 'demographic'"
+          v-else-if="currentFilter == 'demographic'"
           @close="currentFilter = null"
         />
 
         <AccessibilityMetric
-          else-if="currentFilter == 'accessibility-metric'"
+          v-else-if="currentFilter == 'accessibility-metric'"
           @close="currentFilter = null"
         />
 
         <GeographicArea
-          else-if="currentFilter == 'geographic-area'"
+          v-else-if="currentFilter == 'geographic-area'"
           @close="currentFilter = null"
         />
 
         <TimeStrata
-          else-if="currentFilter == 'time-strata'"
+          v-else-if="currentFilter == 'time-strata'"
           @close="currentFilter = null"
         />
 
         <PointsOfInterest
-          else-if="currentFilter == 'points-of-interest'"
+          v-else-if="currentFilter == 'points-of-interest'"
           @close="currentFilter = null"
         />
-
       </transition>
-
     </div>
   </transition>
 </template>
 
 <script>
-
-import FilterHeader from "@/components/filters/FilterHeader"
-import DemographicFilter from "@/components/filters/DemographicFilter"
-import AccessibilityMetric from "@/components/filters/AccessibilityMetric"
-import GeographicArea from "@/components/filters/GeographicArea"
-import TimeStrata from "@/components/filters/TimeStrata"
-import PointsOfInterest from "@/components/filters/PointsOfInterest"
+import FilterHeader from "@/components/filters/FilterHeader";
+import DemographicFilter from "@/components/filters/DemographicFilter";
+import AccessibilityMetric from "@/components/filters/AccessibilityMetric";
+import GeographicArea from "@/components/filters/GeographicArea";
+import TimeStrata from "@/components/filters/TimeStrata";
+import PointsOfInterest from "@/components/filters/PointsOfInterest";
 
 export default {
   components: {

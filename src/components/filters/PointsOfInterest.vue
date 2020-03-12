@@ -1,6 +1,25 @@
 <template>
   <div class="p-4">
-    Points of Interest
+    <b-field label="Points of Interest"></b-field>
+
+    <b-field>
+      <b-checkbox v-model="allPointOfInterestTypes">
+        All
+      </b-checkbox>
+    </b-field>
+
+    <b-field
+      v-for="pointOfInterestTypesValue in metaPointOfInterestTypes"
+      :key="pointOfInterestTypesValue.key"
+    >
+      <b-checkbox
+        v-model="pointOfInterestType"
+        :native-value="pointOfInterestTypesValue.key"
+        :disabled="allPointOfInterestTypes"
+      >
+        {{ pointOfInterestTypesValue.value }}
+      </b-checkbox>
+    </b-field>
 
     <a class="button is-danger mt-4" @click="remove">
       <TrashCan />
@@ -14,6 +33,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { EventBus } from "@/event-bus.js";
 
 import Check from "vue-material-design-icons/Check.vue";
@@ -24,6 +44,24 @@ export default {
     Check,
     TrashCan
   },
+  data() {
+    return {
+      allPointOfInterestTypes: false
+    };
+  },
+  computed: {
+    ...mapGetters({
+      metaPointOfInterestTypes: "metaStore/pointOfInterestTypes"
+    }),
+    pointOfInterestType: {
+      get() {
+        return this.$store.state.parameterStore.pointOfInterestTypes;
+      },
+      set(value) {
+        this.$store.commit("parameterStore/setPointOfInterestTypes", value);
+      }
+    }
+  },
   methods: {
     apply() {
       EventBus.$emit("refreshFilters");
@@ -32,6 +70,17 @@ export default {
     remove() {
       EventBus.$emit("refreshFilters");
       this.$emit("close");
+    }
+  },
+  watch: {
+    allPointOfInterestTypes: function() {
+      if (this.allPointOfInterestTypes) {
+        this.pointOfInterestType = this.metaPointOfInterestTypes.map(
+          x => x.key
+        );
+      } else {
+        this.pointOfInterestType = [];
+      }
     }
   }
 };

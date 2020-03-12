@@ -1,6 +1,18 @@
 <template>
   <div class="p-4">
-    Accessibility Metric
+    <b-field label="Accessibility Metric"></b-field>
+
+    <b-field
+      v-for="accessibilityMetricsValue in metaAccessibilityMetrics"
+      :key="accessibilityMetricsValue.key"
+    >
+      <b-radio
+        v-model="accessibilityMetric"
+        :native-value="accessibilityMetricsValue.key"
+      >
+        {{ accessibilityMetricsValue.value }}
+      </b-radio>
+    </b-field>
 
     <a class="button is-danger mt-4" @click="remove">
       <TrashCan />
@@ -14,6 +26,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { EventBus } from "@/event-bus.js";
 
 import Check from "vue-material-design-icons/Check.vue";
@@ -32,6 +45,19 @@ export default {
     remove() {
       EventBus.$emit("refreshFilters");
       this.$emit("close");
+    }
+  },
+  computed: {
+    ...mapGetters({
+      metaAccessibilityMetrics: "metaStore/accessibilityMetric"
+    }),
+    accessibilityMetric: {
+      get() {
+        return this.$store.state.parameterStore.accessibilityMetric;
+      },
+      set(value) {
+        this.$store.commit("parameterStore/setAccessibilityMetric", value);
+      }
     }
   }
 };
