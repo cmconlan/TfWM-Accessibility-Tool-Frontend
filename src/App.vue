@@ -18,6 +18,9 @@ export default {
     Header,
     PageContent,
     LeftSidebar
+  },
+  mounted() {
+    this.$store.dispatch("metaStore/fetchAllMetaData");
   }
 };
 </script>
