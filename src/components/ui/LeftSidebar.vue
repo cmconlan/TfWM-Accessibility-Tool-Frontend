@@ -1,7 +1,7 @@
 <template>
   <transition name="slide-fade" mode="out-in">
     <div
-      class="w-64 h-full has-background-white"
+      class="h-full has-background-white overflow-hidden"
       style="box-shadow: 3px 0px 20px 10px rgba(0,0,0,.25)"
       key="home"
     >

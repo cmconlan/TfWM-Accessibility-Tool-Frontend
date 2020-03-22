@@ -5,7 +5,6 @@
       class="flex-grow flex flex-row mt-12"
       style="background-color: #F0F0F0;"
     >
-      <LeftSidebar class="relative z-20" style="position: fixed;" />
       <PageContent class="relative z-10" />
     </div>
   </div>
@@ -14,13 +13,12 @@
 <script>
 import Header from "@/components/ui/Header";
 import PageContent from "@/components/ui/PageContent";
-import LeftSidebar from "@/components/ui/LeftSidebar";
+
 
 export default {
   components: {
     Header,
-    PageContent,
-    LeftSidebar
+    PageContent
   },
   mounted() {
     this.$store.dispatch("metaStore/fetchAllMetaData").then(() => {

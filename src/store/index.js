@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import Moment from "moment";
 
 import metaService from "@/services/metaService";
 
@@ -215,12 +216,35 @@ const parameterStore = {
   }
 };
 
+const mapStore = {
+  namespaced: true,
+  state: {
+    masterMapId: null,
+    masterMapTimestamp: Moment()
+  },
+  mutations: {
+    setMasterMapId(state, value) {
+      state.masterMapId = value;
+      state.masterMapTimestamp = Moment();
+    }
+  },
+  getters: {
+    masterMapId: state => {
+      return state.masterMapId;
+    },
+    masterMapTimestamp: state => {
+      return state.masterMapTimestamp;
+    }
+  }
+};
+
 export default new Vuex.Store({
   state: {},
   mutations: {},
   actions: {},
   getters: {},
   modules: {
+    mapStore,
     metaStore,
     parameterStore
   }
