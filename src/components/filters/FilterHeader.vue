@@ -3,8 +3,7 @@
     <template slot="label">
       {{ filterName }}
       <ChevronRight class="float-right" /><br />
-      <div class="pl-4 w-11/12 truncate ... italic text-sm has-text-grey-light">
-        {{ filterString }}
+      <div class="pl-4 w-11/12 truncate ... italic text-sm has-text-grey-light" v-html="filterString">
       </div>
     </template>
   </b-menu-item>

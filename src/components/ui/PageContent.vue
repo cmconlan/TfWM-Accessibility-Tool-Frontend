@@ -1,7 +1,23 @@
 <template>
   <div class="flex flex-row w-full h-full">
 
-    <LeftSidebar class="relative z-20" style="transition: width 0.5s;" :class="{'w-1/12': showLeftSidebar, 'w-0': !showLeftSidebar}" />
+    <LeftSidebar
+      class="relative z-20"
+      style="transition: width 0.5s;"
+      :style="{width: showLeftSidebar ? '12%' : '0%'}"
+      @collapse="showLeftSidebarMaster = false"
+    />
+
+    <transition name="fade">
+      <div
+        class="absolute has-text-dark bg-white rounded-r-full shadow p-2 cursor-pointer"
+        style="z-index: 999999; top: 50vh;"
+        v-if="!showLeftSidebarMaster & showLeftMap"
+        @click="showLeftSidebarMaster = true"
+      >
+        <ArrowExpandRight />
+      </div>
+    </transition>
 
     <multipane
       class="custom-resizer"
@@ -46,7 +62,23 @@
       </div>
     </multipane>
 
-    <LeftSidebar class="relative z-20" style="transition: width 0.5s;" :class="{'w-1/12': showRightSidebar, 'w-0': !showRightSidebar}" />
+    <transition name="fade">
+      <div
+        class="absolute has-text-dark bg-white rounded-l-full shadow p-2 cursor-pointer right-0"
+        style="z-index: 999999; top: 50vh;"
+        v-if="!showRightSidebarMaster & showRightMap"
+        @click="showRightSidebarMaster = true"
+      >
+        <ArrowExpandLeft />
+      </div>
+    </transition>
+
+    <RightSidebar
+      class="relative z-20"
+      style="transition: width 0.5s;"
+      :style="{width: showRightSidebar ? '13%' : '0%'}"
+      @collapse="showRightSidebarMaster = false"
+    />
 
   </div>
 </template>
@@ -56,7 +88,10 @@ import { EventBus } from "@/event-bus.js"
 
 import Map from "@/components/Map";
 import LeftSidebar from "@/components/ui/LeftSidebar";
+import RightSidebar from "@/components/ui/RightSidebar";
 import { Multipane, MultipaneResizer } from 'vue-multipane';
+import ArrowExpandLeft from "vue-material-design-icons/ArrowExpandLeft.vue";
+import ArrowExpandRight from "vue-material-design-icons/ArrowExpandRight.vue";
 import ArrowCollapseLeft from "vue-material-design-icons/ArrowCollapseLeft.vue";
 import ArrowCollapseRight from "vue-material-design-icons/ArrowCollapseRight.vue";
 
@@ -65,7 +100,10 @@ export default {
     Map,
     Multipane,
     LeftSidebar,
+    RightSidebar,
+    ArrowExpandLeft,
     MultipaneResizer,
+    ArrowExpandRight,
     ArrowCollapseLeft,
     ArrowCollapseRight
   },
