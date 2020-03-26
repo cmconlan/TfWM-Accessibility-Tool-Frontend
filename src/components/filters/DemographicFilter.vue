@@ -1,6 +1,6 @@
 <template>
-  <div class="p-4">
-    <section>
+  <div>
+    <section class="p-4">
       <b-field label="Age Range">
         <b-slider v-model="ageRange" :min="0" :max="100" :step="1"> </b-slider>
         {{ ageRange[0] }} - {{ ageRange[1] }}
@@ -70,14 +70,20 @@
       </b-field>
     </section>
 
-    <a class="button is-danger mt-4" @click="remove">
-      <TrashCan />
-      Remove
-    </a>
-    <a class="button is-accent float-right mt-4" @click="apply">
-      <Check />
-      Apply
-    </a>
+    <div class="absolute bottom-0 mb-20 w-full flex flex-row">
+      <div class="w-1/2 p-1">
+        <a class="button is-dark w-full" @click="apply">
+          <Check />
+          Back
+        </a>
+      </div>
+      <div class="w-1/2 p-1">
+        <a class="button is-danger w-full" @click="remove">
+          <TrashCan />
+          Remove
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -99,6 +105,17 @@ export default {
       allEmploymentStatuses: false,
       allDisabilityStatuses: false
     };
+  },
+  mounted() {
+    if (this.ethnicity.length == this.metaEthnicity.length) {
+      this.allEthnicities = true;
+    }
+    if (this.employmentStatus.length == this.metaEmploymentStatus.length) {
+      this.allEmploymentStatuses = true;
+    }
+    if (this.disabilityStatus.length == this.metaDisabilityStatus.length) {
+      this.allDisabilityStatuses = true;
+    }
   },
   computed: {
     ...mapGetters({
@@ -172,8 +189,10 @@ export default {
       this.$emit("close");
     },
     remove() {
-      EventBus.$emit("refreshFilters");
-      this.$emit("close");
+      this.allEthnicities = true;
+      this.allEmploymentStatuses = true;
+      this.allDisabilityStatuses = true;
+      this.ageRange = [0, 100];
     }
   }
 };

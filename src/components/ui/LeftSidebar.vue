@@ -5,34 +5,23 @@
       style="box-shadow: 3px 0px 20px 10px rgba(0,0,0,.25)"
       key="home"
     >
-      <img src="@/assets/images/window_device.png" class="w-56 m-auto" />
+      <h1 class="title has-text-dark m-3">Population</h1>
+      <h2 class="subtitle m-3 has-text-primary is-6">Map Population Density</h2>
+
+      <h2 class="subtitle mx-3 mt-16 has-text-dark is-5" style="margin-bottom: 0;"><b>Filters</b></h2>
       <transition name="slide-fade" mode="out-in">
         <b-menu v-if="!currentFilter">
+
           <b-menu-list>
             <FilterHeader
               filter-name="Demographic Group"
-              filter-string="All"
+              :filter-string="demographicFilterString"
               @click="currentFilter = 'demographic'"
             />
             <FilterHeader
-              filter-name="Accessibility Metric"
-              filter-string="All"
-              @click="currentFilter = 'accessibility-metric'"
-            />
-            <FilterHeader
-              filter-name="Geographic Area"
-              filter-string="All"
-              @click="currentFilter = 'geographic-area'"
-            />
-            <FilterHeader
-              filter-name="Time Strata"
-              filter-string="All"
-              @click="currentFilter = 'time-strata'"
-            />
-            <FilterHeader
-              filter-name="Points of Interest"
-              filter-string="All"
-              @click="currentFilter = 'points-of-interest'"
+              filter-name="Population Metric"
+              :filter-string="populationMetricFilterString"
+              @click="currentFilter = 'population-metric'"
             />
           </b-menu-list>
         </b-menu>
@@ -42,51 +31,82 @@
           @close="currentFilter = null"
         />
 
-        <AccessibilityMetric
-          v-else-if="currentFilter == 'accessibility-metric'"
+        <PopulationMetric
+          v-else-if="currentFilter == 'population-metric'"
           @close="currentFilter = null"
         />
 
-        <GeographicArea
-          v-else-if="currentFilter == 'geographic-area'"
-          @close="currentFilter = null"
-        />
-
-        <TimeStrata
-          v-else-if="currentFilter == 'time-strata'"
-          @close="currentFilter = null"
-        />
-
-        <PointsOfInterest
-          v-else-if="currentFilter == 'points-of-interest'"
-          @close="currentFilter = null"
-        />
       </transition>
+      <div class="absolute bottom-0 mb-6 w-full pl-10 py-2 hover:bg-gray-300 cursor-pointer" style="transition: 0.2s" @click="$emit('collapse')">
+        <ArrowCollapseLeft class="float-left pr-2" />
+        Collapse
+      </div>
     </div>
   </transition>
 </template>
 
 <script>
 import FilterHeader from "@/components/filters/FilterHeader";
+import PopulationMetric from "@/components/filters/PopulationMetric";
 import DemographicFilter from "@/components/filters/DemographicFilter";
-import AccessibilityMetric from "@/components/filters/AccessibilityMetric";
-import GeographicArea from "@/components/filters/GeographicArea";
-import TimeStrata from "@/components/filters/TimeStrata";
-import PointsOfInterest from "@/components/filters/PointsOfInterest";
+import ArrowCollapseLeft from "vue-material-design-icons/ArrowCollapseLeft.vue";
 
 export default {
   components: {
     FilterHeader,
+    PopulationMetric,
     DemographicFilter,
-    AccessibilityMetric,
-    GeographicArea,
-    TimeStrata,
-    PointsOfInterest
+    ArrowCollapseLeft
   },
   data() {
     return {
       currentFilter: null
     };
+  },
+  computed: {
+    demographicFilterString() {
+      var result = "";
+
+      result += "<b>Age range:</b><br>";
+      result += `&nbsp&nbsp&nbsp${this.$store.state.parameterStore.ageRange.min}`;
+      result += ` - ${this.$store.state.parameterStore.ageRange.max}<br>`;
+
+      result += "<b>Ethnicity:</b><br>";
+      if (this.$store.state.parameterStore.ethnicity.length == this.$store.state.metaStore.ethnicity.length) {
+        result += "&nbsp&nbsp&nbspAll<br>";
+      } else {
+        this.$store.state.parameterStore.ethnicity.map(ethnicity => {
+          var keyValPair = this.$store.state.metaStore.ethnicity.find(x => x.key == ethnicity);
+          result += `&nbsp&nbsp&nbsp- ${keyValPair.value}<br>`;
+        });
+      }
+
+      result += "<b>Employment Status:</b><br>";
+      if (this.$store.state.parameterStore.employmentStatus.length == this.$store.state.metaStore.employmentStatus.length) {
+        result += "&nbsp&nbsp&nbspAll<br>";
+      } else {
+        this.$store.state.parameterStore.employmentStatus.map(employmentStatus => {
+          var keyValPair = this.$store.state.metaStore.employmentStatus.find(x => x.key == employmentStatus);
+          result += `&nbsp&nbsp&nbsp- ${keyValPair.value}<br>`;
+        });
+      }
+
+      result += "<b>Disability Status:</b><br>";
+      if (this.$store.state.parameterStore.disabilityStatus.length == this.$store.state.metaStore.disabilityStatus.length) {
+        result += "&nbsp&nbsp&nbspAll<br>";
+      } else {
+        this.$store.state.parameterStore.disabilityStatus.map(disabilityStatus => {
+          var keyValPair = this.$store.state.metaStore.disabilityStatus.find(x => x.key == disabilityStatus);
+          result += `&nbsp&nbsp&nbsp- ${keyValPair.value}<br>`;
+        });
+      }
+
+      return result;
+    },
+    populationMetricFilterString() {
+      var selectedKey = this.$store.state.parameterStore.populationMetric;
+      return this.$store.state.metaStore.populationMetric.find(x => x.key == selectedKey).value;
+    }
   }
 };
 </script>

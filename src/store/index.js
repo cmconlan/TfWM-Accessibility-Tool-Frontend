@@ -14,6 +14,7 @@ const metaStore = {
     geographicArea: [],
     employmentStatus: [],
     disabilityStatus: [],
+    populationMetric: [],
     accessibilityMetric: [],
     pointOfInterestTypes: []
   },
@@ -32,6 +33,9 @@ const metaStore = {
     },
     setDisabilityStatus(state, value) {
       state.disabilityStatus = value;
+    },
+    setPopulationMetric(state, value) {
+      state.populationMetric = value;
     },
     setAccessibilityMetric(state, value) {
       state.accessibilityMetric = value;
@@ -69,6 +73,11 @@ const metaStore = {
         })
       );
       requests.push(
+        metaService.fetchPopulationMetric().then(response => {
+          commit("setPopulationMetric", response.data);
+        })
+      );
+      requests.push(
         metaService.fetchAccessibilityMetric().then(response => {
           commit("setAccessibilityMetric", response.data);
         })
@@ -97,6 +106,9 @@ const metaStore = {
     disabilityStatus: state => {
       return state.disabilityStatus;
     },
+    populationMetric: state => {
+      return state.populationMetric;
+    },
     accessibilityMetric: state => {
       return state.accessibilityMetric;
     },
@@ -118,6 +130,7 @@ const parameterStore = {
     geographicArea: [],
     employmentStatus: [],
     disabilityStatus: [],
+    populationMetric: null,
     accessibilityMetric: null,
     pointOfInterestTypes: []
   },
@@ -142,6 +155,9 @@ const parameterStore = {
     },
     setDisabilityStatus(state, value) {
       state.disabilityStatus = value;
+    },
+    setPopulationMetric(state, value) {
+      state.populationMetric = value;
     },
     setAccessibilityMetric(state, value) {
       state.accessibilityMetric = value;
@@ -177,6 +193,12 @@ const parameterStore = {
         rootGetters["metaStore/disabilityStatus"].map(x => x.key)
       );
       commit(
+        "setPopulationMetric",
+        rootGetters["metaStore/populationMetric"][0]
+          ? rootGetters["metaStore/populationMetric"][0].key
+          : null
+      );
+      commit(
         "setAccessibilityMetric",
         rootGetters["metaStore/accessibilityMetric"][0]
           ? rootGetters["metaStore/accessibilityMetric"][0].key
@@ -206,6 +228,9 @@ const parameterStore = {
     },
     disabilityStatus: state => {
       return state.disabilityStatus;
+    },
+    populationMetric: state => {
+      return state.populationMetric;
     },
     accessibilityMetric: state => {
       return state.accessibilityMetric;

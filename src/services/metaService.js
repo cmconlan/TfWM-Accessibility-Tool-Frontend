@@ -16,6 +16,9 @@ export default {
   fetchDisabilityStatus() {
     return API.client.get(`/meta/disability-status`);
   },
+  fetchPopulationMetric() {
+    return API.client.get(`/meta/population-metric`);
+  },
   fetchAccessibilityMetric() {
     return API.client.get(`/meta/accessibility-metric`);
   },
