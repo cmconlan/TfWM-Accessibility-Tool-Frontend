@@ -67,36 +67,11 @@ export default {
     demographicFilterString() {
       var result = "";
 
-      result += "<b>Age range:</b><br>";
-      result += `&nbsp&nbsp&nbsp${this.$store.state.parameterStore.ageRange.min}`;
-      result += ` - ${this.$store.state.parameterStore.ageRange.max}<br>`;
-
-      result += "<b>Ethnicity:</b><br>";
-      if (this.$store.state.parameterStore.ethnicity.length == this.$store.state.metaStore.ethnicity.length) {
+      if (this.$store.state.parameterStore.demographic.length == this.$store.state.metaStore.demographic.length) {
         result += "&nbsp&nbsp&nbspAll<br>";
       } else {
-        this.$store.state.parameterStore.ethnicity.map(ethnicity => {
-          var keyValPair = this.$store.state.metaStore.ethnicity.find(x => x.key == ethnicity);
-          result += `&nbsp&nbsp&nbsp- ${keyValPair.value}<br>`;
-        });
-      }
-
-      result += "<b>Employment Status:</b><br>";
-      if (this.$store.state.parameterStore.employmentStatus.length == this.$store.state.metaStore.employmentStatus.length) {
-        result += "&nbsp&nbsp&nbspAll<br>";
-      } else {
-        this.$store.state.parameterStore.employmentStatus.map(employmentStatus => {
-          var keyValPair = this.$store.state.metaStore.employmentStatus.find(x => x.key == employmentStatus);
-          result += `&nbsp&nbsp&nbsp- ${keyValPair.value}<br>`;
-        });
-      }
-
-      result += "<b>Disability Status:</b><br>";
-      if (this.$store.state.parameterStore.disabilityStatus.length == this.$store.state.metaStore.disabilityStatus.length) {
-        result += "&nbsp&nbsp&nbspAll<br>";
-      } else {
-        this.$store.state.parameterStore.disabilityStatus.map(disabilityStatus => {
-          var keyValPair = this.$store.state.metaStore.disabilityStatus.find(x => x.key == disabilityStatus);
+        this.$store.state.parameterStore.demographic.map(demographic => {
+          var keyValPair = this.$store.state.metaStore.demographic.find(x => x.key == demographic);
           result += `&nbsp&nbsp&nbsp- ${keyValPair.value}<br>`;
         });
       }

@@ -1,73 +1,28 @@
 <template>
   <div>
     <section class="p-4">
-      <b-field label="Age Range">
-        <b-slider v-model="ageRange" :min="0" :max="100" :step="1"> </b-slider>
-        {{ ageRange[0] }} - {{ ageRange[1] }}
-      </b-field>
 
-      <b-field label="Ethnicity"></b-field>
+      <b-field label="Demographic Group"></b-field>
 
       <b-field>
-        <b-checkbox v-model="allEthnicities">
+        <b-checkbox v-model="allDemographics">
           All
         </b-checkbox>
       </b-field>
 
       <b-field
-        v-for="enthnicityValue in metaEthnicity"
-        :key="enthnicityValue.key"
+        v-for="demographicValue in metaDemographic"
+        :key="demographicValue.key"
       >
         <b-checkbox
-          v-model="ethnicity"
-          :native-value="enthnicityValue.key"
-          :disabled="allEthnicities"
+          v-model="demographic"
+          :native-value="demographicValue.key"
+          :disabled="allDemographics"
         >
-          {{ enthnicityValue.value }}
+          {{ demographicValue.value }}
         </b-checkbox>
       </b-field>
 
-      <b-field label="Employment Status"></b-field>
-
-      <b-field>
-        <b-checkbox v-model="allEmploymentStatuses">
-          All
-        </b-checkbox>
-      </b-field>
-
-      <b-field
-        v-for="employmentStatusValue in metaEmploymentStatus"
-        :key="employmentStatusValue.key"
-      >
-        <b-checkbox
-          v-model="employmentStatus"
-          :native-value="employmentStatusValue.key"
-          :disabled="allEmploymentStatuses"
-        >
-          {{ employmentStatusValue.value }}
-        </b-checkbox>
-      </b-field>
-
-      <b-field label="Disability Status"></b-field>
-
-      <b-field>
-        <b-checkbox v-model="allDisabilityStatuses">
-          All
-        </b-checkbox>
-      </b-field>
-
-      <b-field
-        v-for="disabilityStatusValue in metaDisabilityStatus"
-        :key="disabilityStatusValue.key"
-      >
-        <b-checkbox
-          v-model="disabilityStatus"
-          :native-value="disabilityStatusValue.key"
-          :disabled="allDisabilityStatuses"
-        >
-          {{ disabilityStatusValue.value }}
-        </b-checkbox>
-      </b-field>
     </section>
 
     <div class="absolute bottom-0 mb-20 w-full flex flex-row">
@@ -101,85 +56,33 @@ export default {
   },
   data() {
     return {
-      allEthnicities: false,
-      allEmploymentStatuses: false,
-      allDisabilityStatuses: false
+      allDemographics: false
     };
   },
   mounted() {
-    if (this.ethnicity.length == this.metaEthnicity.length) {
-      this.allEthnicities = true;
-    }
-    if (this.employmentStatus.length == this.metaEmploymentStatus.length) {
-      this.allEmploymentStatuses = true;
-    }
-    if (this.disabilityStatus.length == this.metaDisabilityStatus.length) {
-      this.allDisabilityStatuses = true;
+    if (this.demographic.length == this.metaDemographic.length) {
+      this.allDemographics = true;
     }
   },
   computed: {
     ...mapGetters({
-      metaEthnicity: "metaStore/ethnicity",
-      metaEmploymentStatus: "metaStore/employmentStatus",
-      metaDisabilityStatus: "metaStore/disabilityStatus"
+      metaDemographic: "metaStore/demographic"
     }),
-    ageRange: {
+    demographic: {
       get() {
-        return [
-          this.$store.state.parameterStore.ageRange.min,
-          this.$store.state.parameterStore.ageRange.max
-        ];
+        return this.$store.state.parameterStore.demographic;
       },
       set(value) {
-        this.$store.commit("parameterStore/setAgeRangeMin", value[0]);
-        this.$store.commit("parameterStore/setAgeRangeMax", value[1]);
-      }
-    },
-    ethnicity: {
-      get() {
-        return this.$store.state.parameterStore.ethnicity;
-      },
-      set(value) {
-        this.$store.commit("parameterStore/setEthnicity", value);
-      }
-    },
-    employmentStatus: {
-      get() {
-        return this.$store.state.parameterStore.employmentStatus;
-      },
-      set(value) {
-        this.$store.commit("parameterStore/setEmploymentStatus", value);
-      }
-    },
-    disabilityStatus: {
-      get() {
-        return this.$store.state.parameterStore.disabilityStatus;
-      },
-      set(value) {
-        this.$store.commit("parameterStore/setDisabilityStatus", value);
+        this.$store.commit("parameterStore/setDemographic", value);
       }
     }
   },
   watch: {
-    allEthnicities: function() {
-      if (this.allEthnicities) {
-        this.ethnicity = this.metaEthnicity.map(x => x.key);
+    allDemographics: function() {
+      if (this.allDemographics) {
+        this.demographic = this.metaDemographic.map(x => x.key);
       } else {
-        this.ethnicity = [];
-      }
-    },
-    allEmploymentStatuses: function() {
-      if (this.allEmploymentStatuses) {
-        this.employmentStatus = this.metaEmploymentStatus.map(x => x.key);
-      } else {
-        this.employmentStatus = [];
-      }
-    },
-    allDisabilityStatuses: function() {
-      if (this.allDisabilityStatuses) {
-        this.disabilityStatus = this.metaDisabilityStatus.map(x => x.key);
-      } else {
-        this.disabilityStatus = [];
+        this.demographic = [];
       }
     }
   },
@@ -189,10 +92,7 @@ export default {
       this.$emit("close");
     },
     remove() {
-      this.allEthnicities = true;
-      this.allEmploymentStatuses = true;
-      this.allDisabilityStatuses = true;
-      this.ageRange = [0, 100];
+      this.allDemographics = true;
     }
   }
 };
