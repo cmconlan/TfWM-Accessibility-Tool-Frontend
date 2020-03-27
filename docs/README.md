@@ -73,8 +73,9 @@ git pull
 # Install/update dependencies
 npm install
 
-# Build the app
+# Build the app & docs
 npm run build
+npm run docs:build
 ```
 Once this is complete, the files for the page should be in `~/TfWM-Accessibility-Tool-Frontend/dist`. Point your webserver to this directory and the site will be served!
 
