@@ -35,6 +35,7 @@ export default {
   mounted() {
     this.$store.dispatch("metaStore/fetchAllMetaData").then(() => {
       this.$store.dispatch("parameterStore/initialiseParameters");
+      this.$store.dispatch("metricStore/fetchAll");
     }).catch(() => {
       this.apiError = true;
     });

@@ -39,9 +39,8 @@
               </div>
             </div>
           </transition>
-          <Map class="w-full h-full" :id="1" />
+          <Map class="w-full h-full" :id="1" metric-type="population" />
         </div>
-        Test
       </div>
       <multipane-resizer></multipane-resizer>
       <div class="pane" style="flexGrow: 1;" ref="rightMap">
@@ -57,7 +56,7 @@
               </div>
             </div>
           </transition>
-          <Map class="w-full h-full" :id="2" />
+          <Map class="w-full h-full" :id="2" metric-type="accessibility" />
         </div>
       </div>
     </multipane>

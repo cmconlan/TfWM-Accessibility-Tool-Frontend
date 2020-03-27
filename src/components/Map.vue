@@ -4,11 +4,22 @@
       <l-tile-layer :url="url" :attribution="attribution" />
       <l-geo-json :geojson="geojson" :options-style="styleFunction" />
     </l-map>
+    <div class="absolute bg-white top-0 right-0 w-1/2 m-2 rounded-full px-3 flex flex-row" style="z-index: 999999999;">
+      <div class="float-right w-1/12">
+        {{ min }}
+      </div>
+      <div class="w-10/12 bg-blue-500 mx-2" style="background-image: linear-gradient(to right, green, yellow, red);">
+      </div>
+      <div class="text-right w-1/12">
+        {{ max }}
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import Moment from "moment";
+import { mapGetters } from "vuex";
 
 import { latLng } from "leaflet";
 import { EventBus } from "@/event-bus.js"
@@ -38,7 +49,8 @@ export default {
     });
   },
   props: {
-    id: Number
+    id: Number,
+    metricType: String
   },
   methods: {
     centerUpdate(center) {
@@ -69,19 +81,55 @@ export default {
         EventBus.$emit('updateMapCenter', this.id, this.center);
       }
     },
-    styleFunction(x) {
+    styleFunction(outputArea) {
       /* eslint no-console: ["error", { allow: ["log", "error"] }] */
 
-      console.log(x);
-      return () => {
-        return {
-          weight: 2,
-          color: "#ECEFF1",
-          opacity: 1,
-          fillColor: "#ECEFF1",
-          fillOpacity: 1
-        };
+      console.log(outputArea);
+
+      var metric;
+      if (this.metricType == 'population') {
+        console.log("population");
+        metric = outputArea.properties.relativePopulationMetric;
+      } else {
+        console.log("access");
+        metric = outputArea.properties.relativeAccessibilityMetric;
+      }
+      console.log(metric);
+
+      var colour;
+      if (metric < 0.5) {
+        colour = `#${(metric * 255).toString(16).padStart(2, '0')}FF00`;
+      } else {
+        colour = `#FF${((1 - metric) * 255).toString(16).padStart(2, '0')}00`;
+      }
+      console.log(colour);
+
+      return {
+        weight: 1.5,
+        color: colour,
+        opacity: 1,
+        fillColor: colour,
+        fillOpacity: 0.4
       };
+    }
+  },
+  computed: {
+    ...mapGetters({
+      geojson: "metricStore/outputAreas"
+    }),
+    min() {
+      if (this.metricType == 'population') {
+        return this.$store.getters['metricStore/populationMetricMin'];
+      } else {
+        return this.$store.getters['metricStore/accessibilityMetricMin'];
+      }
+    },
+    max() {
+      if (this.metricType == 'population') {
+        return this.$store.getters['metricStore/populationMetricMax'];
+      } else {
+        return this.$store.getters['metricStore/accessibilityMetricMax'];
+      }
     }
   },
   data() {
@@ -92,54 +140,6 @@ export default {
       attribution: '<a href="http://osm.org/copyright">OpenStreetMap</a>',
       mapOptions: {
         zoomSnap: 0.5
-      },
-      geojson: {
-        type: "FeatureCollection",
-        features: [
-          {
-            type: "Feature",
-            properties: {
-              stroke: "#555555",
-              "stroke-width": 2,
-              "stroke-opacity": 1,
-              fill: "#555555",
-              "fill-opacity": 0.5,
-              test: "test"
-            },
-            geometry: {
-              type: "Polygon",
-              coordinates: [
-                [
-                  [-1.5616464614868162, 52.37077828509749],
-                  [-1.5622901916503906, 52.373791403989124],
-                  [-1.5561962127685547, 52.37724968708041],
-                  [-1.553363800048828, 52.38060291509318],
-                  [-1.5530633926391602, 52.38235801885472],
-                  [-1.5543937683105469, 52.38447976756064],
-                  [-1.557912826538086, 52.385056027378766],
-                  [-1.562376022338867, 52.385501313904584],
-                  [-1.5654659271240234, 52.38605136752974],
-                  [-1.5667963027954102, 52.385344154467134],
-                  [-1.5661525726318357, 52.383327225358606],
-                  [-1.566925048828125, 52.383091474383455],
-                  [-1.568942070007324, 52.38358916941018],
-                  [-1.5696287155151367, 52.382803332593134],
-                  [-1.5717315673828125, 52.38319625275005],
-                  [-1.5766239166259763, 52.38026236449064],
-                  [-1.5773534774780271, 52.37895253000267],
-                  [-1.576066017150879, 52.37785223900584],
-                  [-1.5703153610229492, 52.378297598188176],
-                  [-1.5691137313842773, 52.376516134508854],
-                  [-1.570272445678711, 52.37389620442528],
-                  [-1.567697525024414, 52.37284818887275],
-                  [-1.564650535583496, 52.372297970752534],
-                  [-1.5628910064697266, 52.37049006295402],
-                  [-1.5616464614868162, 52.37077828509749]
-                ]
-              ]
-            }
-          }
-        ]
       }
     };
   }
