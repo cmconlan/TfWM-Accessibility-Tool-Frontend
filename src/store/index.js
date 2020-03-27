@@ -9,30 +9,18 @@ Vue.use(Vuex);
 const metaStore = {
   namespaced: true,
   state: {
-    ethnicity: [],
     timeStrata: [],
-    geographicArea: [],
-    employmentStatus: [],
-    disabilityStatus: [],
+    demographic: [],
     populationMetric: [],
     accessibilityMetric: [],
     pointOfInterestTypes: []
   },
   mutations: {
-    setEthnicity(state, value) {
-      state.ethnicity = value;
-    },
     setTimeStrata(state, value) {
       state.timeStrata = value;
     },
-    setGeographicArea(state, value) {
-      state.geographicArea = value;
-    },
-    setEmploymentStatus(state, value) {
-      state.employmentStatus = value;
-    },
-    setDisabilityStatus(state, value) {
-      state.disabilityStatus = value;
+    setDemographic(state, value) {
+      state.demographic = value;
     },
     setPopulationMetric(state, value) {
       state.populationMetric = value;
@@ -48,28 +36,13 @@ const metaStore = {
     fetchAllMetaData({ commit }) {
       var requests = [];
       requests.push(
-        metaService.fetchEthnicity().then(response => {
-          commit("setEthnicity", response.data);
+        metaService.fetchDemographic().then(response => {
+          commit("setDemographic", response.data);
         })
       );
       requests.push(
         metaService.fetchTimeStrata().then(response => {
           commit("setTimeStrata", response.data);
-        })
-      );
-      requests.push(
-        metaService.fetchGeographicArea().then(response => {
-          commit("setGeographicArea", response.data);
-        })
-      );
-      requests.push(
-        metaService.fetchEmploymentStatus().then(response => {
-          commit("setEmploymentStatus", response.data);
-        })
-      );
-      requests.push(
-        metaService.fetchDisabilityStatus().then(response => {
-          commit("setDisabilityStatus", response.data);
         })
       );
       requests.push(
@@ -91,20 +64,11 @@ const metaStore = {
     }
   },
   getters: {
-    ethnicity: state => {
-      return state.ethnicity;
+    demographic: state => {
+      return state.demographic;
     },
     timeStrata: state => {
       return state.timeStrata;
-    },
-    geographicArea: state => {
-      return state.geographicArea;
-    },
-    employmentStatus: state => {
-      return state.employmentStatus;
-    },
-    disabilityStatus: state => {
-      return state.disabilityStatus;
     },
     populationMetric: state => {
       return state.populationMetric;
@@ -121,40 +85,18 @@ const metaStore = {
 const parameterStore = {
   namespaced: true,
   state: {
-    ageRange: {
-      min: 0,
-      max: 100
-    },
-    ethnicity: [],
+    demographic: [],
     timeStrata: null,
-    geographicArea: [],
-    employmentStatus: [],
-    disabilityStatus: [],
     populationMetric: null,
     accessibilityMetric: null,
     pointOfInterestTypes: []
   },
   mutations: {
-    setAgeRangeMin(state, value) {
-      state.ageRange.min = value;
-    },
-    setAgeRangeMax(state, value) {
-      state.ageRange.max = value;
-    },
-    setEthnicity(state, value) {
-      state.ethnicity = value;
+    setDemographic(state, value) {
+      state.demographic = value;
     },
     setTimeStrata(state, value) {
       state.timeStrata = value;
-    },
-    setGeographicArea(state, value) {
-      state.geographicArea = value;
-    },
-    setEmploymentStatus(state, value) {
-      state.employmentStatus = value;
-    },
-    setDisabilityStatus(state, value) {
-      state.disabilityStatus = value;
     },
     setPopulationMetric(state, value) {
       state.populationMetric = value;
@@ -168,29 +110,15 @@ const parameterStore = {
   },
   actions: {
     initialiseParameters({ commit, rootGetters }) {
-      commit("setAgeRangeMin", 0);
-      commit("setAgeRangeMax", 100);
       commit(
-        "setEthnicity",
-        rootGetters["metaStore/ethnicity"].map(x => x.key)
+        "setDemographic",
+        rootGetters["metaStore/demographic"].map(x => x.key)
       );
       commit(
         "setTimeStrata",
         rootGetters["metaStore/timeStrata"][0]
           ? rootGetters["metaStore/timeStrata"][0].key
           : null
-      );
-      commit(
-        "setGeographicArea",
-        rootGetters["metaStore/geographicArea"].map(x => x.key)
-      );
-      commit(
-        "setEmploymentStatus",
-        rootGetters["metaStore/employmentStatus"].map(x => x.key)
-      );
-      commit(
-        "setDisabilityStatus",
-        rootGetters["metaStore/disabilityStatus"].map(x => x.key)
       );
       commit(
         "setPopulationMetric",
@@ -211,23 +139,11 @@ const parameterStore = {
     }
   },
   getters: {
-    ethnicity: state => {
+    demographic: state => {
       return state.ethnicity;
-    },
-    ageRange: state => {
-      return state.ageRange;
     },
     timeStrata: state => {
       return state.timeStrata;
-    },
-    geographicArea: state => {
-      return state.geographicArea;
-    },
-    employmentStatus: state => {
-      return state.employmentStatus;
-    },
-    disabilityStatus: state => {
-      return state.disabilityStatus;
     },
     populationMetric: state => {
       return state.populationMetric;
