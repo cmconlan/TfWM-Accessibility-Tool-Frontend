@@ -1,27 +1,35 @@
 <template>
-  <div class="p-4">
-    <b-field label="Accessibility Metric"></b-field>
+  <div>
+    <section class="p-4">
+      <b-field label="Accessibility Metric"></b-field>
 
-    <b-field
-      v-for="accessibilityMetricsValue in metaAccessibilityMetrics"
-      :key="accessibilityMetricsValue.key"
-    >
-      <b-radio
-        v-model="accessibilityMetric"
-        :native-value="accessibilityMetricsValue.key"
+      <b-field
+        v-for="accessibilityMetricsValue in metaAccessibilityMetrics"
+        :key="accessibilityMetricsValue.key"
       >
-        {{ accessibilityMetricsValue.value }}
-      </b-radio>
-    </b-field>
+        <b-radio
+          v-model="accessibilityMetric"
+          :native-value="accessibilityMetricsValue.key"
+        >
+          {{ accessibilityMetricsValue.value }}
+        </b-radio>
+      </b-field>
+    </section>
 
-    <a class="button is-danger mt-4" @click="remove">
-      <TrashCan />
-      Remove
-    </a>
-    <a class="button is-accent float-right mt-4" @click="apply">
-      <Check />
-      Apply
-    </a>
+    <div class="absolute bottom-0 mb-20 w-full flex flex-row">
+      <div class="w-1/2 p-1">
+        <a class="button is-dark w-full" @click="apply">
+          <Check />
+          Back
+        </a>
+      </div>
+      <div class="w-1/2 p-1">
+        <a class="button is-danger w-full" @click="remove">
+          <TrashCan />
+          Remove
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -43,8 +51,7 @@ export default {
       this.$emit("close");
     },
     remove() {
-      EventBus.$emit("refreshFilters");
-      this.$emit("close");
+      this.accessibilityMetric = this.metaAccessibilityMetrics[0];
     }
   },
   computed: {

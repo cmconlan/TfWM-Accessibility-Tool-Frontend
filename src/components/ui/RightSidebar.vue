@@ -14,25 +14,38 @@
 
           <b-menu-list>
             <FilterHeader
-              filter-name="Demographic Group"
-              :filter-string="demographicFilterString"
-              @click="currentFilter = 'demographic'"
+              filter-name="Points of Interest"
+              :filter-string="poiFilterString"
+              :reversed="true"
+              @click="currentFilter = 'poi'"
             />
             <FilterHeader
-              filter-name="Population Metric"
-              :filter-string="populationMetricFilterString"
-              @click="currentFilter = 'population-metric'"
+              filter-name="Time Strata"
+              :filter-string="timeStrataFilterString"
+              :reversed="true"
+              @click="currentFilter = 'time-strata'"
+            />
+            <FilterHeader
+              filter-name="Accessibility Metric"
+              :filter-string="accessibilityMetricFilterString"
+              :reversed="true"
+              @click="currentFilter = 'accessibility-metric'"
             />
           </b-menu-list>
         </b-menu>
 
-        <DemographicFilter
-          v-else-if="currentFilter == 'demographic'"
+        <PointsOfInterest
+          v-else-if="currentFilter == 'poi'"
           @close="currentFilter = null"
         />
 
-        <PopulationMetric
-          v-else-if="currentFilter == 'population-metric'"
+        <TimeStrata
+          v-else-if="currentFilter == 'time-strata'"
+          @close="currentFilter = null"
+        />
+
+        <AccessibilityMetric
+          v-else-if="currentFilter == 'accessibility-metric'"
           @close="currentFilter = null"
         />
 
@@ -47,15 +60,17 @@
 
 <script>
 import FilterHeader from "@/components/filters/FilterHeader";
-import PopulationMetric from "@/components/filters/PopulationMetric";
-import DemographicFilter from "@/components/filters/DemographicFilter";
+import PointsOfInterest from "@/components/filters/PointsOfInterest";
+import TimeStrata from "@/components/filters/TimeStrata";
+import AccessibilityMetric from "@/components/filters/AccessibilityMetric";
 import ArrowCollapseRight from "vue-material-design-icons/ArrowCollapseRight.vue";
 
 export default {
   components: {
     FilterHeader,
-    PopulationMetric,
-    DemographicFilter,
+    PointsOfInterest,
+    TimeStrata,
+    AccessibilityMetric,
     ArrowCollapseRight
   },
   data() {
@@ -64,11 +79,24 @@ export default {
     };
   },
   computed: {
-    demographicFilterString() {
-      var result = "All";
+    poiFilterString() {
+      var result = "";
+
+      if (this.$store.state.parameterStore.pointOfInterestTypes.length == this.$store.state.metaStore.pointOfInterestTypes.length) {
+        result += "&nbsp&nbsp&nbspAll<br>";
+      } else {
+        this.$store.state.parameterStore.pointOfInterestTypes.map(pointOfInterest => {
+          var keyValPair = this.$store.state.metaStore.pointOfInterestTypes.find(x => x.key == pointOfInterest);
+          result += `${keyValPair.value}<br>`;
+        });
+      }
+
       return result;
     },
-    populationMetricFilterString() {
+    timeStrataFilterString() {
+      return "All";
+    },
+    accessibilityMetricFilterString() {
       return "All";
     }
   }
@@ -84,7 +112,7 @@ export default {
 }
 .slide-fade-enter,
 .slide-fade-leave-to {
-  transform: translateX(-200px);
+  transform: translateX(200px);
   opacity: 0;
 }
 </style>

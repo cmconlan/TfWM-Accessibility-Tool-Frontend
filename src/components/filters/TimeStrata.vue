@@ -1,24 +1,42 @@
 <template>
-  <div class="p-4">
-    <b-field label="Time Strata"></b-field>
+  <div>
+    <section class="p-4">
+      <b-field label="Time Strata"></b-field>
 
-    <b-field
-      v-for="timeStrataValue in metaTimeStrata"
-      :key="timeStrataValue.key"
-    >
-      <b-radio v-model="timeStrata" :native-value="timeStrataValue.key">
-        {{ timeStrataValue.value }}
-      </b-radio>
-    </b-field>
+      <b-field>
+        <b-checkbox v-model="allTimeStrata">
+          All
+        </b-checkbox>
+      </b-field>
 
-    <a class="button is-danger mt-4" @click="remove">
-      <TrashCan />
-      Remove
-    </a>
-    <a class="button is-accent float-right mt-4" @click="apply">
-      <Check />
-      Apply
-    </a>
+      <b-field
+        v-for="timeStrataValue in metaTimeStrata"
+        :key="timeStrataValue.key"
+      >
+        <b-checkbox
+          v-model="timeStrata"
+          :native-value="timeStrataValue.key"
+          :disabled="allTimeStrata"
+        >
+          {{ timeStrataValue.value }}
+        </b-checkbox>
+      </b-field>
+    </section>
+
+    <div class="absolute bottom-0 mb-20 w-full flex flex-row">
+      <div class="w-1/2 p-1">
+        <a class="button is-dark w-full" @click="apply">
+          <Check />
+          Back
+        </a>
+      </div>
+      <div class="w-1/2 p-1">
+        <a class="button is-danger w-full" @click="remove">
+          <TrashCan />
+          Remove
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -33,6 +51,16 @@ export default {
   components: {
     Check,
     TrashCan
+  },
+  data() {
+    return {
+      allTimeStrata: false
+    };
+  },
+  mounted() {
+    if (this.timeStrata.length == this.metaTimeStrata.length) {
+      this.allTimeStrata = true;
+    }
   },
   computed: {
     ...mapGetters({
@@ -53,8 +81,18 @@ export default {
       this.$emit("close");
     },
     remove() {
-      EventBus.$emit("refreshFilters");
-      this.$emit("close");
+      this.allTimeStrata = true;
+    }
+  },
+  watch: {
+    allTimeStrata: function() {
+      if (this.allTimeStrata) {
+        this.timeStrata = this.metaTimeStrata.map(
+          x => x.key
+        );
+      } else {
+        this.timeStrata = [];
+      }
     }
   }
 };

@@ -1,34 +1,42 @@
 <template>
-  <div class="p-4">
-    <b-field label="Points of Interest"></b-field>
+  <div>
+    <section class="p-4">
+      <b-field label="Points of Interest"></b-field>
 
-    <b-field>
-      <b-checkbox v-model="allPointOfInterestTypes">
-        All
-      </b-checkbox>
-    </b-field>
+      <b-field>
+        <b-checkbox v-model="allPointOfInterestTypes">
+          All
+        </b-checkbox>
+      </b-field>
 
-    <b-field
-      v-for="pointOfInterestTypesValue in metaPointOfInterestTypes"
-      :key="pointOfInterestTypesValue.key"
-    >
-      <b-checkbox
-        v-model="pointOfInterestType"
-        :native-value="pointOfInterestTypesValue.key"
-        :disabled="allPointOfInterestTypes"
+      <b-field
+        v-for="pointOfInterestTypesValue in metaPointOfInterestTypes"
+        :key="pointOfInterestTypesValue.key"
       >
-        {{ pointOfInterestTypesValue.value }}
-      </b-checkbox>
-    </b-field>
+        <b-checkbox
+          v-model="pointOfInterestType"
+          :native-value="pointOfInterestTypesValue.key"
+          :disabled="allPointOfInterestTypes"
+        >
+          {{ pointOfInterestTypesValue.value }}
+        </b-checkbox>
+      </b-field>
+    </section>
 
-    <a class="button is-danger mt-4" @click="remove">
-      <TrashCan />
-      Remove
-    </a>
-    <a class="button is-accent float-right mt-4" @click="apply">
-      <Check />
-      Apply
-    </a>
+    <div class="absolute bottom-0 mb-20 w-full flex flex-row">
+      <div class="w-1/2 p-1">
+        <a class="button is-dark w-full" @click="apply">
+          <Check />
+          Back
+        </a>
+      </div>
+      <div class="w-1/2 p-1">
+        <a class="button is-danger w-full" @click="remove">
+          <TrashCan />
+          Remove
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -49,6 +57,11 @@ export default {
       allPointOfInterestTypes: false
     };
   },
+  mounted() {
+    if (this.pointOfInterestType.length == this.metaPointOfInterestTypes.length) {
+      this.allPointOfInterestTypes = true;
+    }
+  },
   computed: {
     ...mapGetters({
       metaPointOfInterestTypes: "metaStore/pointOfInterestTypes"
@@ -68,8 +81,7 @@ export default {
       this.$emit("close");
     },
     remove() {
-      EventBus.$emit("refreshFilters");
-      this.$emit("close");
+      this.allPointOfInterestTypes = true;
     }
   },
   watch: {

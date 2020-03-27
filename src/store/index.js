@@ -86,7 +86,7 @@ const parameterStore = {
   namespaced: true,
   state: {
     demographic: [],
-    timeStrata: null,
+    timeStrata: [],
     populationMetric: null,
     accessibilityMetric: null,
     pointOfInterestTypes: []
@@ -116,9 +116,7 @@ const parameterStore = {
       );
       commit(
         "setTimeStrata",
-        rootGetters["metaStore/timeStrata"][0]
-          ? rootGetters["metaStore/timeStrata"][0].key
-          : null
+        rootGetters["metaStore/timeStrata"].map(x => x.key)
       );
       commit(
         "setPopulationMetric",
@@ -140,7 +138,7 @@ const parameterStore = {
   },
   getters: {
     demographic: state => {
-      return state.ethnicity;
+      return state.demographic;
     },
     timeStrata: state => {
       return state.timeStrata;
