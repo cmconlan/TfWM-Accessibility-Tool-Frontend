@@ -8,10 +8,14 @@
       <h1 class="title has-text-dark m-3">Population</h1>
       <h2 class="subtitle m-3 has-text-primary is-6">Map Population Density</h2>
 
-      <h2 class="subtitle mx-3 mt-16 has-text-dark is-5" style="margin-bottom: 0;"><b>Filters</b></h2>
+      <h2
+        class="subtitle mx-3 mt-16 has-text-dark is-5"
+        style="margin-bottom: 0;"
+      >
+        <b>Filters</b>
+      </h2>
       <transition name="slide-fade" mode="out-in">
         <b-menu v-if="!currentFilter">
-
           <b-menu-list>
             <FilterHeader
               filter-name="Demographic Group"
@@ -35,9 +39,12 @@
           v-else-if="currentFilter == 'population-metric'"
           @close="currentFilter = null"
         />
-
       </transition>
-      <div class="absolute bottom-0 mb-6 w-full pl-10 py-2 hover:bg-gray-300 cursor-pointer" style="transition: 0.2s" @click="$emit('collapse')">
+      <div
+        class="absolute bottom-0 mb-6 w-full pl-10 py-2 hover:bg-gray-300 cursor-pointer"
+        style="transition: 0.2s"
+        @click="$emit('collapse')"
+      >
         <ArrowCollapseLeft class="float-left pr-2" />
         Collapse
       </div>
@@ -67,11 +74,16 @@ export default {
     demographicFilterString() {
       var result = "";
 
-      if (this.$store.state.parameterStore.demographic.length == this.$store.state.metaStore.demographic.length) {
+      if (
+        this.$store.state.parameterStore.demographic.length ==
+        this.$store.state.metaStore.demographic.length
+      ) {
         result += "&nbsp&nbsp&nbspAll<br>";
       } else {
         this.$store.state.parameterStore.demographic.map(demographic => {
-          var keyValPair = this.$store.state.metaStore.demographic.find(x => x.key == demographic);
+          var keyValPair = this.$store.state.metaStore.demographic.find(
+            x => x.key == demographic
+          );
           result += `&nbsp&nbsp&nbsp- ${keyValPair.value}<br>`;
         });
       }
@@ -80,7 +92,9 @@ export default {
     },
     populationMetricFilterString() {
       var selectedKey = this.$store.state.parameterStore.populationMetric;
-      return this.$store.state.metaStore.populationMetric.find(x => x.key == selectedKey).value;
+      return this.$store.state.metaStore.populationMetric.find(
+        x => x.key == selectedKey
+      ).value;
     }
   }
 };

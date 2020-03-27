@@ -1,10 +1,9 @@
 <template>
   <div class="flex flex-row w-full h-full">
-
     <LeftSidebar
       class="relative z-20"
       style="transition: width 0.5s;"
-      :style="{width: showLeftSidebar ? '12%' : '0%'}"
+      :style="{ width: showLeftSidebar ? '12%' : '0%' }"
       @collapse="showLeftSidebarMaster = false"
     />
 
@@ -25,9 +24,10 @@
       style="transition: width 0.5s;"
       @paneResize="paneResized"
       @paneResizeStop="paneResizeStopped"
-      @paneResizeStart="paneRisizeStarted">
+      @paneResizeStart="paneRisizeStarted"
+    >
       <div class="pane" style="width: 50%" ref="leftMap">
-        <div class="w-full h-full relative" >
+        <div class="w-full h-full relative">
           <transition name="fade">
             <div
               class="absolute top-0 left-0 w-full h-full flex"
@@ -35,7 +35,11 @@
               v-if="showLeftMapCollapse"
             >
               <div class="m-auto">
-                <ArrowCollapseLeft fillColor="#FFFFFF" :size="38" style="margin: auto"/>
+                <ArrowCollapseLeft
+                  fillColor="#FFFFFF"
+                  :size="38"
+                  style="margin: auto"
+                />
               </div>
             </div>
           </transition>
@@ -44,7 +48,7 @@
       </div>
       <multipane-resizer></multipane-resizer>
       <div class="pane" style="flexGrow: 1;" ref="rightMap">
-        <div class="w-full h-full" >
+        <div class="w-full h-full">
           <transition name="fade">
             <div
               class="absolute top-0 left-0 w-full h-full flex"
@@ -52,7 +56,11 @@
               v-if="showRightMapCollapse"
             >
               <div class="m-auto">
-                <ArrowCollapseRight fillColor="#FFFFFF" :size="38" style="margin: auto"/>
+                <ArrowCollapseRight
+                  fillColor="#FFFFFF"
+                  :size="38"
+                  style="margin: auto"
+                />
               </div>
             </div>
           </transition>
@@ -75,20 +83,19 @@
     <RightSidebar
       class="relative z-20"
       style="transition: width 0.5s;"
-      :style="{width: showRightSidebar ? '13%' : '0%'}"
+      :style="{ width: showRightSidebar ? '13%' : '0%' }"
       @collapse="showRightSidebarMaster = false"
     />
-
   </div>
 </template>
 
 <script>
-import { EventBus } from "@/event-bus.js"
+import { EventBus } from "@/event-bus.js";
 
 import Map from "@/components/Map";
 import LeftSidebar from "@/components/ui/LeftSidebar";
 import RightSidebar from "@/components/ui/RightSidebar";
-import { Multipane, MultipaneResizer } from 'vue-multipane';
+import { Multipane, MultipaneResizer } from "vue-multipane";
 import ArrowExpandLeft from "vue-material-design-icons/ArrowExpandLeft.vue";
 import ArrowExpandRight from "vue-material-design-icons/ArrowExpandRight.vue";
 import ArrowCollapseLeft from "vue-material-design-icons/ArrowCollapseLeft.vue";
@@ -123,19 +130,19 @@ export default {
       if (this.showLeftMap == false) {
         this.showLeftSidebarOnFinish = this.showLeftSidebarMaster;
         this.showLeftSidebarMaster = false;
-        this.$refs['leftMap'].style.width = "0%";
+        this.$refs["leftMap"].style.width = "0%";
         this.showLeftMap = true;
       }
       if (this.showRightMap == false) {
         this.showRightSidebarOnFinish = this.showRightSidebarMaster;
         this.showRightSidebarMaster = false;
-        this.$refs['leftMap'].style.width = "100%";
+        this.$refs["leftMap"].style.width = "100%";
         this.showRightMap = true;
       }
-      console.log(this.$refs['leftMap'].style);
+      console.log(this.$refs["leftMap"].style);
     },
     paneResized($el1, $el2, $size) {
-    /* eslint no-console: ["error", { allow: ["log", "error"] }] */
+      /* eslint no-console: ["error", { allow: ["log", "error"] }] */
       console.log($size);
       var floatSize = parseFloat($size.slice(0, -1));
       if (floatSize <= 10) {
@@ -153,12 +160,12 @@ export default {
     paneResizeStopped() {
       if (this.showLeftMapCollapse) {
         this.showLeftMap = false;
-        this.$refs['leftMap'].style.width = "0%";
+        this.$refs["leftMap"].style.width = "0%";
         EventBus.$emit("refreshMaps");
       }
       if (this.showRightMapCollapse) {
         this.showRightMap = false;
-        this.$refs['leftMap'].style.width = "100%";
+        this.$refs["leftMap"].style.width = "100%";
         EventBus.$emit("refreshMaps");
       }
       if (this.showLeftSidebarOnFinish) {
@@ -189,11 +196,11 @@ export default {
       if (!this.showLeftMap) {
         return "width: 0%;";
       } else {
-        return ""
+        return "";
       }
     },
     rightPaneStyle() {
-      return this.showRightMap ? 'flexGrow: 1;' : 'width: 0%;';
+      return this.showRightMap ? "flexGrow: 1;" : "width: 0%;";
     }
   }
 };
@@ -209,7 +216,8 @@ export default {
 .custom-resizer > .pane ~ .pane {
 }
 .custom-resizer > .multipane-resizer {
-  margin: 0; left: 0;
+  margin: 0;
+  left: 0;
   position: relative;
   &:before {
     display: block;

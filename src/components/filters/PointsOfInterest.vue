@@ -58,7 +58,9 @@ export default {
     };
   },
   mounted() {
-    if (this.pointOfInterestType.length == this.metaPointOfInterestTypes.length) {
+    if (
+      this.pointOfInterestType.length == this.metaPointOfInterestTypes.length
+    ) {
       this.allPointOfInterestTypes = true;
     }
   },

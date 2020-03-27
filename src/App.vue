@@ -1,10 +1,22 @@
 <template>
   <div id="app" class="flex flex-col h-screen">
-    <div v-if="apiError" class="w-full h-full absolute bg-white text-center" style="z-index: 999999999; backdrop-filter: blur(5px); background-color: rgba(255, 255, 255, .15);">
-      <div class="inline-block w-1/2 h-1/3 bg-white rounded p-8" style="margin-top: 30vh">
-        <h1 class="title is-1 w-full text-center has-text-primary h-full pb-8">Oops... Something Went Wrong</h1>
-        <h2 class="subtitle is-3 w-full text-center has-text-dark h-full pb-2">We can't connect to our API</h2>
-        Try reloading the page, or contact transport-access-tool@dcs.warwick.ac.uk.
+    <div
+      v-if="apiError"
+      class="w-full h-full absolute bg-white text-center"
+      style="z-index: 999999999; backdrop-filter: blur(5px); background-color: rgba(255, 255, 255, .15);"
+    >
+      <div
+        class="inline-block w-1/2 h-1/3 bg-white rounded p-8"
+        style="margin-top: 30vh"
+      >
+        <h1 class="title is-1 w-full text-center has-text-primary h-full pb-8">
+          Oops... Something Went Wrong
+        </h1>
+        <h2 class="subtitle is-3 w-full text-center has-text-dark h-full pb-2">
+          We can't connect to our API
+        </h2>
+        Try reloading the page, or contact
+        transport-access-tool@dcs.warwick.ac.uk.
       </div>
     </div>
     <Header style="position: fixed;" class="w-full" />
@@ -21,7 +33,6 @@
 import Header from "@/components/ui/Header";
 import PageContent from "@/components/ui/PageContent";
 
-
 export default {
   components: {
     Header,
@@ -33,12 +44,15 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch("metaStore/fetchAllMetaData").then(() => {
-      this.$store.dispatch("parameterStore/initialiseParameters");
-      this.$store.dispatch("metricStore/fetchAll");
-    }).catch(() => {
-      this.apiError = true;
-    });
+    this.$store
+      .dispatch("metaStore/fetchAllMetaData")
+      .then(() => {
+        this.$store.dispatch("parameterStore/initialiseParameters");
+        this.$store.dispatch("metricStore/fetchAll");
+      })
+      .catch(() => {
+        this.apiError = true;
+      });
   }
 };
 </script>

@@ -6,12 +6,18 @@
       key="home"
     >
       <h1 class="title has-text-dark m-3 text-right">Accessibility</h1>
-      <h2 class="subtitle m-3 has-text-primary is-6 text-right">Map Accessibility Score</h2>
+      <h2 class="subtitle m-3 has-text-primary is-6 text-right">
+        Map Accessibility Score
+      </h2>
 
-      <h2 class="subtitle mx-3 mt-16 has-text-dark is-5 text-right" style="margin-bottom: 0;"><b>Filters</b></h2>
+      <h2
+        class="subtitle mx-3 mt-16 has-text-dark is-5 text-right"
+        style="margin-bottom: 0;"
+      >
+        <b>Filters</b>
+      </h2>
       <transition name="slide-fade" mode="out-in">
         <b-menu v-if="!currentFilter">
-
           <b-menu-list>
             <FilterHeader
               filter-name="Points of Interest"
@@ -48,9 +54,12 @@
           v-else-if="currentFilter == 'accessibility-metric'"
           @close="currentFilter = null"
         />
-
       </transition>
-      <div class="absolute bottom-0 mb-6 w-full pr-16 py-2 hover:bg-gray-300 cursor-pointer text-right" style="transition: 0.2s" @click="$emit('collapse')">
+      <div
+        class="absolute bottom-0 mb-6 w-full pr-16 py-2 hover:bg-gray-300 cursor-pointer text-right"
+        style="transition: 0.2s"
+        @click="$emit('collapse')"
+      >
         Collapse
         <ArrowCollapseRight class="float-right pl-2" />
       </div>
@@ -82,13 +91,20 @@ export default {
     poiFilterString() {
       var result = "";
 
-      if (this.$store.state.parameterStore.pointOfInterestTypes.length == this.$store.state.metaStore.pointOfInterestTypes.length) {
+      if (
+        this.$store.state.parameterStore.pointOfInterestTypes.length ==
+        this.$store.state.metaStore.pointOfInterestTypes.length
+      ) {
         result += "&nbsp&nbsp&nbspAll<br>";
       } else {
-        this.$store.state.parameterStore.pointOfInterestTypes.map(pointOfInterest => {
-          var keyValPair = this.$store.state.metaStore.pointOfInterestTypes.find(x => x.key == pointOfInterest);
-          result += `${keyValPair.value}<br>`;
-        });
+        this.$store.state.parameterStore.pointOfInterestTypes.map(
+          pointOfInterest => {
+            var keyValPair = this.$store.state.metaStore.pointOfInterestTypes.find(
+              x => x.key == pointOfInterest
+            );
+            result += `${keyValPair.value}<br>`;
+          }
+        );
       }
 
       return result;

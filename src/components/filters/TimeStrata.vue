@@ -87,9 +87,7 @@ export default {
   watch: {
     allTimeStrata: function() {
       if (this.allTimeStrata) {
-        this.timeStrata = this.metaTimeStrata.map(
-          x => x.key
-        );
+        this.timeStrata = this.metaTimeStrata.map(x => x.key);
       } else {
         this.timeStrata = [];
       }

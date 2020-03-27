@@ -1,7 +1,6 @@
 <template>
   <div>
     <section class="p-4">
-
       <b-field label="Demographic Group"></b-field>
 
       <b-field>
@@ -22,7 +21,6 @@
           {{ demographicValue.value }}
         </b-checkbox>
       </b-field>
-
     </section>
 
     <div class="absolute bottom-0 mb-20 w-full flex flex-row">
