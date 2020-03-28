@@ -10,7 +10,7 @@ module.exports = {
       { text: 'Repository', link: 'https://github.com/cmconlan/TfWM-Accessibility-Tool-Frontend' }
     ],
     sidebar: 'auto',
-    lastUpdated: 'Last Updated',
-    base: '/docs/frontend/'
-  }
+    lastUpdated: 'Last Updated'
+  },
+  base: '/docs/frontend/'
 }
