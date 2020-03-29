@@ -26,11 +26,11 @@ import metaService from "@/services/metaService";
 
 ### Methods
 
-#### `fetchEthnicity()`
-Performs a GET request on `/meta/ethnicity`.
+#### `fetchDemographic()`
+Performs a GET request on `/meta/demographic`.
 ```js
-metaService.fetchEthnicity().then(response => {
-  console.log(`Ethnicities: ${response.data}`);
+metaService.fetchDemographic().then(response => {
+  console.log(`Demographics: ${response.data}`);
 })
 ```
 
@@ -42,27 +42,11 @@ metaService.fetchTimeStrata().then(response => {
 })
 ```
 
-#### `fetchGeographicArea()`
-Performs a GET request on `/meta/geographic-area`.
+#### `fetchPopulationMetric()`
+Performs a GET request on `/meta/population-metric`.
 ```js
-metaService.fetchGeographicArea().then(response => {
-  console.log(`Georgaphic area: ${response.data}`);
-})
-```
-
-#### `fetchEmploymentStatus()`
-Performs a GET request on `/meta/employment-status`.
-```js
-metaService.fetchEmploymentStatus().then(response => {
-  console.log(`Employment status: ${response.data}`);
-})
-```
-
-#### `fetchDisabilityStatus()`
-Performs a GET request on `/meta/disability-status`.
-```js
-metaService.fetchDisabilityStatus().then(response => {
-  console.log(`Disability status: ${response.data}`);
+metaService.fetchPopulationMetric().then(response => {
+  console.log(`Population metrics: ${response.data}`);
 })
 ```
 
@@ -70,7 +54,7 @@ metaService.fetchDisabilityStatus().then(response => {
 Performs a GET request on `/meta/accessibility-metric`.
 ```js
 metaService.fetchAccessibilityMetric().then(response => {
-  console.log(`Accessibility metric: ${response.data}`);
+  console.log(`Accessibility metrics: ${response.data}`);
 })
 ```
 
@@ -79,5 +63,38 @@ Performs a GET request on `/meta/point-of-interest-type`.
 ```js
 metaService.fetchPointOfInterestTypes().then(response => {
   console.log(`Point of interest types: ${response.data}`);
+})
+```
+
+## Metric Service - `metricService.js`
+The metric service provides access to all endpoints that fetch metrics or output areas. Each function returns a promise that will resolve once the request is complete.
+
+```js
+import metricService from "@/services/metricService";
+```
+
+### Methods
+
+#### `fetchOutputAreas()`
+Performs a GET request on `/output-areas`.
+```js
+metricService.fetchOutputAreas().then(response => {
+  console.log(`Output Areas: ${response.data}`);
+})
+```
+
+#### `fetchPopulationMetrics()`
+Performs a GET request on `/population-metrics`.
+```js
+metricService.fetchPopulationMetrics().then(response => {
+  console.log(`Population Metrics: ${response.data}`);
+})
+```
+
+#### `fetchAccessibilityMetrics()`
+Performs a GET request on `/accessibility-metrics`.
+```js
+metricService.fetchAccessibilityMetrics().then(response => {
+  console.log(`Accessibility Metrics: ${response.data}`);
 })
 ```
