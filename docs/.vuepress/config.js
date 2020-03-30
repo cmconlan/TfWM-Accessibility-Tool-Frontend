@@ -9,8 +9,40 @@ module.exports = {
       { text: 'Tests', link: '/tests/' },
       { text: 'Repository', link: 'https://github.com/cmconlan/TfWM-Accessibility-Tool-Frontend' }
     ],
-    sidebar: 'auto',
-    lastUpdated: 'Last Updated'
+    sidebar: {
+      '/services/': [
+        ''
+      ],
+      '/store/': [
+        '',
+        'metaStore',
+        'parameterStore',
+        'mapStore'
+      ],
+      '/components/': [
+        '',
+        'root',
+        'Header',
+        'PageContent',
+        'Map',
+        'LeftSidebar',
+        'RightSidebar',
+        'FilterHeader',
+        'PopulationMetric',
+        'DemographicFilter',
+        'PointsOfInterest',
+        'TimeStrata',
+        'AccessibilityMetric'
+      ],
+      '/tests/': [
+        ''
+      ],
+      '/': [
+        ''
+      ],
+    },
+    lastUpdated: 'Last Updated',
+    displayAllHeaders: true
   },
   base: '/docs/frontend/'
 }
