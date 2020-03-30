@@ -6,9 +6,9 @@ This is the documentation for the frontend to the [Transport Accessibility Tool]
 
 This application is a single page web app (SPA) built in [Vue](https://vuejs.org). This frontend uses [Axios](https://github.com/axios/axios) to query the Accessibility Tool API, and displays the results of this to the user.
 
-Interactions with the Accessibility Tool API are performed by [services](/services). These services are used by the [store](/store) to fetch data to hold in the state of the store. Once data is in the store, a hierarchy of [components](/components) responsively display this data to the user.
+Interactions with the Accessibility Tool API are performed by [services](/services.html). These services are used by the [store](/store.html) to fetch data to hold in the state of the store. Once data is in the store, a hierarchy of [components](/components.html) responsively display this data to the user.
 
-To ensure a codebase that is as free from errors as possible, a full [test suite](/tests) using [Cypress](https://www.cypress.io/) is provided.
+To ensure a codebase that is as free from errors as possible, a full [test suite](/tests.html) using [Cypress](https://www.cypress.io/) is provided.
 
 ## Getting Started
 To install this SPA locally:

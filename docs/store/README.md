@@ -8,10 +8,10 @@ The store is split into 4 modules, as outlined in the table below.
 
 | Module Name    | Purpose |
 | -----------    | ------- |
-| [metaStore](metaStore)      | Store and manage all meta data. For example, storing all the demographics known to the system. |
-| [parameterStore](parameterStore) | Store all the parameters that the user has selected on the frontend. |
-| [metricStore](metricStore)    | Store and manage all metrics data. This is where the output areas are stored, along with all metrics data for these output areas. |
-| [mapStore](mapStore)       | Store to manage all map related values. This includes one center and zoom that both maps follow. |
+| [metaStore](metaStore.html)      | Store and manage all meta data. For example, storing all the demographics known to the system. |
+| [parameterStore](parameterStore.html) | Store all the parameters that the user has selected on the frontend. |
+| [metricStore](metricStore.html)    | Store and manage all metrics data. This is where the output areas are stored, along with all metrics data for these output areas. |
+| [mapStore](mapStore.html)       | Store to manage all map related values. This includes one center and zoom that both maps follow. |
 
 ## A Note About Store Docs
 
