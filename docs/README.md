@@ -1,6 +1,6 @@
 # Accessibility Tool
 
-This is the documentation for the frontend to the [Transport Accessibility Tool](https://https://transport-access-tool.dcs.warwick.ac.uk/). This tool is used to map accessibility across different output areas in the West Midlands.
+This is the documentation for the frontend to the [Transport Accessibility Tool](https://transport-access-tool.dcs.warwick.ac.uk/). This tool is used to map accessibility across different output areas in the West Midlands.
 
 ## How It Works
 
