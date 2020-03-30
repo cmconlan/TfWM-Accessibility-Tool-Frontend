@@ -5,10 +5,10 @@ This component is shown as the right sidebar. It contains a number of filters us
 
 ## Children
 
- - [FilterHeader](FilterHeader)
- - [PointsOfInterest](PointsOfInterest)
- - [TimeStrata](TimeStrata)
- - [AccessibilityMetric](AccessibilityMetric)
+ - [FilterHeader](FilterHeader.html)
+ - [PointsOfInterest](PointsOfInterest.html)
+ - [TimeStrata](TimeStrata.html)
+ - [AccessibilityMetric](AccessibilityMetric.html)
 
 ## Reactive State
 

@@ -5,8 +5,8 @@ The root component is the root of the document. All other components are childre
 
 ## Children
 
- - [Header](Header)
- - [PageContent](PageContent)
+ - [Header](Header.html)
+ - [PageContent](PageContent.html)
 
 ## Reactive State
 

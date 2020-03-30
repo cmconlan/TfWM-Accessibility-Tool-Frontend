@@ -5,9 +5,9 @@ This component is shown as the left sidebar. It contains a number of filters use
 
 ## Children
 
- - [FilterHeader](FilterHeader)
- - [PopulationMetric](PopulationMetric)
- - [DemographicFilter](DemographicFilter)
+ - [FilterHeader](FilterHeader.html)
+ - [PopulationMetric](PopulationMetric.html)
+ - [DemographicFilter](DemographicFilter.html)
 
 ## Reactive State
 

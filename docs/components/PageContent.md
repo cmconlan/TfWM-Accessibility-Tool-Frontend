@@ -5,9 +5,9 @@ The page content component sits below the header and includes the left and right
 
 ## Children
 
- - [Map](Map)
- - [LeftSidebar](LeftSidebar)
- - [RightSidebar](RightSidebar)
+ - [Map](Map.html)
+ - [LeftSidebar](LeftSidebar.html)
+ - [RightSidebar](RightSidebar.html)
 
 ## Reactive State
 
