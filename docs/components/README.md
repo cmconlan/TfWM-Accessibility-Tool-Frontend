@@ -8,4 +8,4 @@ Each component also has a parent, and can have a number of children. The excepti
 
 As is standard Vue practise, the components are arranged in a hierarchy as shown in the image below.
 
-![Component Hierarchy](assets/components.svg)
+![Component Hierarchy](/docs/frontend/assets/components.svg)
