@@ -2,7 +2,7 @@
 
 This SPA is made of a hierarchy of Vue components. Each component has a well defined, distinct purpose and can track it's own reactive state.
 
-Each component also has a parent, and can have a number of children. The exception to this rule is the [root](root) component, that has no parent.
+Each component also has a parent, and can have a number of children. The exception to this rule is the [root](root.html) component, that has no parent.
 
 ## Component hierarchy
 
