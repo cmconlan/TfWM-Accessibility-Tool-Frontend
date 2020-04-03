@@ -86,9 +86,9 @@ export default {
         this.zoom = newZoom;
       }
     });
-    EventBus.$on("updateSelectedOA", (id) => {
-      this.$store.commit('mapStore/setSelectedOA', id);
-    })
+    EventBus.$on("updateSelectedOA", id => {
+      this.$store.commit("mapStore/setSelectedOA", id);
+    });
   },
   props: {
     id: Number,
@@ -103,7 +103,9 @@ export default {
     centerUpdate(center) {
       this.center = center;
 
-      if (!this.$store.state.mapStore.mapSync) {return;}
+      if (!this.$store.state.mapStore.mapSync) {
+        return;
+      }
 
       var timeout = this.$store.getters["mapStore/masterMapTimestamp"].isBefore(
         Moment().subtract(2000, "milliseconds")
@@ -126,7 +128,9 @@ export default {
     zoomUpdate(zoom) {
       this.zoom = zoom;
 
-      if (!this.$store.state.mapStore.mapSync) {return;}
+      if (!this.$store.state.mapStore.mapSync) {
+        return;
+      }
 
       var timeout = this.$store.getters["mapStore/masterMapTimestamp"].isBefore(
         Moment().subtract(2000, "milliseconds")
@@ -184,7 +188,7 @@ export default {
         });
 
         layer.on("click", function() {
-          evBus.$emit('updateSelectedOA', this.feature.id);
+          evBus.$emit("updateSelectedOA", this.feature.id);
         });
 
         var populationMetric = this.$store.getters[
@@ -198,28 +202,33 @@ export default {
 
         var areaDiv = `<div>Area ID: ${feature.id}</div>`;
         var populationDiv = `<div>Population: ${feature.properties.population}</div>`;
-        var populationMetricDiv
+        var populationMetricDiv;
         if (populationMetric) {
-          populationMetricDiv = `<div>Population Metric: ${populationMetric.metric.toFixed(2)} (${populationMetric.rank} of ${rankCount})</div>`;
+          populationMetricDiv = `<div>Population Metric: ${populationMetric.metric.toFixed(
+            2
+          )} (${populationMetric.rank} of ${rankCount})</div>`;
         } else {
-          populationMetricDiv = `<div>Population Metric: N/A (Only top 50% most populated OAs shown in at-risk score)</div>`
+          populationMetricDiv = `<div>Population Metric: N/A (Only top 50% most populated OAs shown in at-risk score)</div>`;
         }
         var accessibilityMetricDiv;
         if (accessibilityMetric) {
-          accessibilityMetricDiv = `<div>Accessibility Metric: ${accessibilityMetric.metric.toFixed(2)} (${accessibilityMetric.rank} of ${rankCount})</div>`;
+          accessibilityMetricDiv = `<div>Accessibility Metric: ${accessibilityMetric.metric.toFixed(
+            2
+          )} (${accessibilityMetric.rank} of ${rankCount})</div>`;
         } else {
-          accessibilityMetricDiv = `<div>Accessibility Metric: Unknown</div>`
+          accessibilityMetricDiv = `<div>Accessibility Metric: Unknown</div>`;
         }
 
         layer.bindTooltip(
-          areaDiv + populationDiv + populationMetricDiv + accessibilityMetricDiv,
+          areaDiv +
+            populationDiv +
+            populationMetricDiv +
+            accessibilityMetricDiv,
           { permanent: false, sticky: true }
         );
       }).bind(this);
     },
     styleFunction() {
-      /* eslint no-console: ["error", { allow: ["log", "error"] }] */
-
       const colourFunction = this.colourFunction;
       const selectedOA = this.$store.state.mapStore.selectedOA;
       /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "updateWatch" }]*/
@@ -267,7 +276,6 @@ export default {
       }).bind(this);
     },
     geojson() {
-      console.log(`${this.geojsonSource}`);
       return isNaN(this.min.rank) || isNaN(this.max.rank)
         ? null
         : this.geojsonSource;

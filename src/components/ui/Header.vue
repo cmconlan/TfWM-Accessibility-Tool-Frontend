@@ -11,21 +11,25 @@
       <nav class="level">
         <div class="level-right">
           <div class="level-item">
-            <div class="mr-4 cursor-pointer flex flex-row hover:text-blue-500 transition duration-100" @click="showSettings = !showSettings">
+            <div
+              class="mr-4 cursor-pointer flex flex-row hover:text-blue-500 transition duration-100"
+              @click="showSettings = !showSettings"
+            >
               <MenuLeft v-if="!showSettings" />
               <MenuRight v-if="showSettings" />
               <Cogs />
             </div>
             <transition name="slide-fade">
               <div v-if="showSettings" class="mr-4">
-                <b-switch v-model="mapSync" type="is-info">Sync Map Movements</b-switch>
+                <b-switch v-model="mapSync" type="is-info"
+                  >Sync Map Movements</b-switch
+                >
               </div>
             </transition>
           </div>
         </div>
       </nav>
     </template>
-
   </b-navbar>
 </template>
 
@@ -43,7 +47,7 @@ export default {
   data() {
     return {
       showSettings: false
-    }
+    };
   },
   computed: {
     mapSync: {
@@ -60,10 +64,10 @@ export default {
 
 <style>
 .slide-fade-enter-active {
-  transition: all .5s ease;
+  transition: all 0.5s ease;
 }
 .slide-fade-leave-active {
-  transition: all .5s ease;
+  transition: all 0.5s ease;
 }
 .slide-fade-enter, .slide-fade-leave-to
 /* .slide-fade-leave-active below version 2.1.8 */ {

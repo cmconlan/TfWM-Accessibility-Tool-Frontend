@@ -230,13 +230,9 @@ export default {
   },
   watch: {
     min: function() {
-      console.log(this.min);
-      console.log(this.max);
       this.$emit("updatefunction", this.colourFunction);
     },
     max: function() {
-      console.log(this.min);
-      console.log(this.max);
       this.$emit("updatefunction", this.colourFunction);
     }
   },
@@ -295,8 +291,6 @@ export default {
       const stops = this.stops;
       const toHex = this.toHex;
       return function(metrics) {
-        /* eslint no-console: ["error", { allow: ["log", "error"] }] */
-        //console.log(max);
         var metric = metrics[this.method];
         var relativeMetric =
           (metric - this.min[this.method]) /
