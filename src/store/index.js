@@ -182,11 +182,15 @@ const parameterStore = {
 const mapStore = {
   namespaced: true,
   state: {
+    mapSync: true,
     selectedOA: null,
     masterMapId: null,
     masterMapTimestamp: Moment()
   },
   mutations: {
+    setMapSync(state, value) {
+      state.mapSync = value;
+    },
     setSelectedOA(state, value) {
       state.selectedOA = value;
     },

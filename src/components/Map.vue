@@ -103,6 +103,8 @@ export default {
     centerUpdate(center) {
       this.center = center;
 
+      if (!this.$store.state.mapStore.mapSync) {return;}
+
       var timeout = this.$store.getters["mapStore/masterMapTimestamp"].isBefore(
         Moment().subtract(2000, "milliseconds")
       );
@@ -123,6 +125,8 @@ export default {
     },
     zoomUpdate(zoom) {
       this.zoom = zoom;
+
+      if (!this.$store.state.mapStore.mapSync) {return;}
 
       var timeout = this.$store.getters["mapStore/masterMapTimestamp"].isBefore(
         Moment().subtract(2000, "milliseconds")
