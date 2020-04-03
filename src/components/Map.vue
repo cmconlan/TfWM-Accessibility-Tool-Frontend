@@ -192,15 +192,23 @@ export default {
         var rankCount = this.$store.getters["metricStore/populationMetricMax"]
           .rank;
 
+        var areaDiv = `<div>Area ID: ${feature.id}</div>`;
+        var populationDiv = `<div>Population: ${feature.properties.population}</div>`;
+        var populationMetricDiv
+        if (populationMetric) {
+          populationMetricDiv = `<div>Population Metric: ${populationMetric.metric.toFixed(2)} (${populationMetric.rank} of ${rankCount})</div>`;
+        } else {
+          populationMetricDiv = `<div>Population Metric: N/A (Only top 50% most populated OAs shown in at-risk score)</div>`
+        }
+        var accessibilityMetricDiv;
+        if (accessibilityMetric) {
+          accessibilityMetricDiv = `<div>Accessibility Metric: ${accessibilityMetric.metric.toFixed(2)} (${accessibilityMetric.rank} of ${rankCount})</div>`;
+        } else {
+          accessibilityMetricDiv = `<div>Accessibility Metric: Unknown</div>`
+        }
+
         layer.bindTooltip(
-          `<div>Area ID: ${feature.id}</div>
-          <div>Population: ${feature.properties.population}</div>
-          <div>Population Metric: ${populationMetric.metric.toFixed(2)} (${
-            populationMetric.rank
-          } of ${rankCount})</div>
-          <div>Accessibility Metric: ${accessibilityMetric.metric.toFixed(
-            2
-          )} (${accessibilityMetric.rank} of ${rankCount})</div>`,
+          areaDiv + populationDiv + populationMetricDiv + accessibilityMetricDiv,
           { permanent: false, sticky: true }
         );
       }).bind(this);
@@ -228,19 +236,20 @@ export default {
           );
         }
 
+        var isSelected = outputArea.id == selectedOA;
+
         if (!metric) {
           this.OAsLoaded++;
           return {
-            weight: 0.5,
+            weight: 0.1,
             color: "#050505",
             opacity: 1,
-            fillColor: "#000000",
-            fillOpacity: 1
+            fillColor: "#A0A0A0",
+            fillOpacity: isSelected ? 1 : 0.4
           };
         }
 
         var colour = colourFunction(metric);
-        var isSelected = outputArea.id == selectedOA;
 
         this.OAsLoaded++;
 
