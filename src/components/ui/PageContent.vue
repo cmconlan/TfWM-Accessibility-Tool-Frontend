@@ -22,9 +22,9 @@
       class="custom-resizer"
       :class="mapWidth"
       style="transition: width 0.5s;"
-      @paneResize="paneResized"
-      @paneResizeStop="paneResizeStopped"
-      @paneResizeStart="paneRisizeStarted"
+      @paneResize.self="paneResized"
+      @paneResizeStop.self="paneResizeStopped"
+      @paneResizeStart.self="paneRisizeStarted"
     >
       <div class="pane" style="width: 50%" ref="leftMap">
         <div class="w-full h-full relative">

@@ -213,15 +213,15 @@ const metricStore = {
       });
     },
     fetchAll({ dispatch }) {
-      return Promise.all([
-        dispatch("fetchOutputAreas"),
-        dispatch("fetchPopulationMetrics"),
-        dispatch("fetchAccessibilityMetrics")
-      ]);
+      return dispatch("fetchAccessibilityMetrics").then(() => {
+        return dispatch("fetchPopulationMetrics").then(() => {
+          return dispatch("fetchOutputAreas");
+        });
+      });
     }
   },
   getters: {
-    outputAreas: (state, getters) => {
+    outputAreas: (state) => {
       if (!state.outputAreas) {
         return null;
       }
@@ -231,15 +231,17 @@ const metricStore = {
       if (state.accessibilityMetrics.length == 0) {
         return null;
       }
-      var result = { ...state.outputAreas };
+      /*var result = { ...state.outputAreas };
       result.features = result.features.map(oa => {
         var id = oa.properties.id;
         var populationMetric = state.populationMetrics.find(
           x => (x.output_area_id = id)
-        ).metric;
+        );
+        populationMetric = populationMetric ? populationMetric.metric : 0;
         var accessibilityMetric = state.accessibilityMetrics.find(
           x => (x.output_area_id = id)
-        ).accessibility;
+        );
+        accessibilityMetric = accessibilityMetric ? accessibilityMetric.accessibility : 0;
         oa.properties.populationMetric = populationMetric;
         oa.properties.relativePopulationMetric =
           (populationMetric - getters.populationMetricMin) /
@@ -250,39 +252,48 @@ const metricStore = {
           (getters.accessibilityMetricMax - getters.accessibilityMetricMin);
         return oa;
       });
-      return result;
+      return result;*/
+      return state.outputAreas;
+    },
+    populationMetrics: state => {
+      return state.populationMetrics;
+    },
+    accessibilityMetrics: state => {
+      return state.accessibilityMetrics;
+    },
+    populationMetric: state => id => {
+      return state.populationMetrics[id];
+    },
+    accessibilityMetric: state => id => {
+      return state.accessibilityMetrics[id];
     },
     populationMetricMin: state => {
-      if (state.populationMetrics.length == 0) {
-        return 0;
-      }
-      return state.populationMetrics.reduce((prev, curr) =>
-        prev.metric < curr.metric ? prev : curr
-      ).metric;
+      if (state.populationMetrics.length == 0) {return {metric: NaN, rank: NaN};}
+      return {
+        metric: Math.min(...Object.values(state.populationMetrics).map(x => x.metric)),
+        rank: 1
+      };
     },
     populationMetricMax: state => {
-      if (state.populationMetrics.length == 0) {
-        return 100;
-      }
-      return state.populationMetrics.reduce((prev, curr) =>
-        prev.metric > curr.metric ? prev : curr
-      ).metric;
+      if (state.populationMetrics.length == 0) {return {metric: NaN, rank: NaN};}
+      return {
+        metric: Math.max(...Object.values(state.populationMetrics).map(x => x.metric)),
+        rank: Object.values(state.populationMetrics).length
+      };
     },
     accessibilityMetricMin: state => {
-      if (state.accessibilityMetrics.length == 0) {
-        return 0;
-      }
-      return state.accessibilityMetrics.reduce((prev, curr) =>
-        prev.accessibility < curr.accessibility ? prev : curr
-      ).accessibility;
+      if (state.accessibilityMetrics.length == 0) {return {metric: NaN, rank: NaN};}
+      return {
+        metric: Math.min(...Object.values(state.accessibilityMetrics).map(x => x.metric)),
+        rank: 1
+      };
     },
     accessibilityMetricMax: state => {
-      if (state.accessibilityMetrics.length == 0) {
-        return 100;
-      }
-      return state.accessibilityMetrics.reduce((prev, curr) =>
-        prev.accessibility > curr.accessibility ? prev : curr
-      ).accessibility;
+      if (state.accessibilityMetrics.length == 0) {return {metric: NaN, rank: NaN};}
+      return {
+        metric: Math.max(...Object.values(state.accessibilityMetrics).map(x => x.metric)),
+        rank: Object.values(state.accessibilityMetrics).length
+      };
     }
   }
 };

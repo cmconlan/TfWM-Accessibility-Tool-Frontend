@@ -94,6 +94,7 @@ $accent: #5698d2;
 $accent-invert: findColorInvert($accent);
 
 $title-color: #ffffff;
+$loading-background: rgba(0,0,0,0.5);
 
 // Set font
 $family-primary: "Work Sans";

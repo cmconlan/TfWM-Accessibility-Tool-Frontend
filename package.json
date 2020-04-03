@@ -21,6 +21,7 @@
     "node-sass": "^4.13.1",
     "tailwindcss": "^1.1.4",
     "vue": "^2.6.10",
+    "vue-color": "^2.7.1",
     "vue-datetime": "^1.0.0-beta.11",
     "vue-inline-datepicker": "^1.0.7",
     "vue-material-design-icons": "^4.4.0",
@@ -75,7 +76,10 @@
           "jest": true
         }
       }
-    ]
+    ],
+    "rules": {
+      "vue/no-side-effects-in-computed-properties": "warning"
+    }
   },
   "browserslist": [
     "> 1%",
