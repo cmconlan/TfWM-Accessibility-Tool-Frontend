@@ -3,7 +3,7 @@
     <LeftSidebar
       class="relative z-20"
       style="transition: width 0.5s;"
-      :style="{ width: showLeftSidebar ? '12%' : '0%' }"
+      :style="{ width: showLeftSidebar ? '16%' : '0%' }"
       @collapse="showLeftSidebarMaster = false"
     />
 
@@ -94,7 +94,7 @@
     <RightSidebar
       class="relative z-20"
       style="transition: width 0.5s;"
-      :style="{ width: showRightSidebar ? '13%' : '0%' }"
+      :style="{ width: showRightSidebar ? '16%' : '0%' }"
       @collapse="showRightSidebarMaster = false"
     />
   </div>
@@ -215,6 +215,9 @@ export default {
 </script>
 
 <style lang="scss">
+.multipane-resizer {
+  width: 20px!important;
+}
 .custom-resizer {
   width: 100%;
 }
