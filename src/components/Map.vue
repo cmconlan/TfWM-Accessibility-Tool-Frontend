@@ -1,5 +1,20 @@
 <template>
   <div style="height: calc(100vh - 3rem)">
+    <div v-if="error" class="absolute top-0 left-0 w-full h-full bg-blue-500" style="z-index: 9999999; backdrop-filter: blur(5px); background-color: rgba(255, 255, 255, .15);">
+      <div
+        class="inline-block w-2/3 h-1/3 bg-white rounded p-8 m-auto"
+        style="margin-top: 30vh; margin-left: 16%;"
+      >
+        <h1 class="title is-1 w-full text-center has-text-primary h-full pb-8">
+          Oops... Something Went Wrong
+        </h1>
+        <h2 class="subtitle is-3 w-full text-center has-text-dark h-full pb-2">
+          We can't refresh this map
+        </h2>
+        Try reloading the page, or contact<br>
+        <a target="_" href="mailto:transport-access-tool@dcs.warwick.ac.uk">transport-access-tool@dcs.warwick.ac.uk</a>.
+      </div>
+    </div>
     <l-map
       v-if="isVisible"
       :zoom="zoom"
@@ -122,6 +137,8 @@ export default {
       /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "updateWatch" }]*/
       const updateWatch = this.colourFunctionUpdateWatch;
 
+      this.OAsLoaded = 0;
+
       return ((outputArea) => {
         var metric;
 
@@ -155,6 +172,7 @@ export default {
       }).bind(this);
     },
     geojson() {
+      console.log(`${this.geojsonSource}`);
       return (isNaN(this.min.rank) || isNaN(this.max.rank)) ? null : this.geojsonSource;
     },
     min() {
@@ -171,20 +189,15 @@ export default {
         return this.$store.getters["metricStore/accessibilityMetricMax"];
       }
     },
+    error() {
+      if (this.metricType == "population") {
+        return this.$store.state.metricStore.populationMetricError;
+      } else {
+        return this.$store.state.metricStore.accessibilityMetricError;
+      }
+    },
     loading() {
-      return this.OAsLoaded < this.totalOAs;
-    }
-  },
-  watch: {
-    geojson: function() {
-      this.totalOAs = this.geojson.features.length;
-      this.OAsLoaded = 0;
-    },
-    populationMetrics: function () {
-      this.OAsLoaded = 0;
-    },
-    accessibilityMetrics: function () {
-      this.OAsLoaded = 0;
+      return !this.error && (this.OAsLoaded < this.totalOAs);
     }
   },
   data() {

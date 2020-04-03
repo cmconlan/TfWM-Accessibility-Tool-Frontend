@@ -4,10 +4,10 @@ export default {
   fetchOutputAreas() {
     return API.client.get(`/output-areas`);
   },
-  fetchPopulationMetrics() {
-    return API.client.get(`/population-metrics`);
+  fetchPopulationMetrics(paramString) {
+    return API.client.get(`/population-metrics${paramString}`);
   },
-  fetchAccessibilityMetrics() {
-    return API.client.get(`/accessibility-metrics`);
+  fetchAccessibilityMetrics(paramString) {
+    return API.client.get(`/accessibility-metrics${paramString}`);
   }
 };

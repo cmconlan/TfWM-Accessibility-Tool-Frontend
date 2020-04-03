@@ -1,9 +1,14 @@
 <template>
-    <div class="bg-white px-3 shadow" :class="showEdit ? 'rounded pb-4' : 'rounded-full cursor-pointer'">
+    <div
+      class="bg-white px-3 shadow rounded-lg overflow-hidden"
+      :class="showEdit ? 'pb-4' : 'cursor-pointer'"
+      style="transition: max-height 2s linear;"
+      :style="{ 'max-height': showEdit ? '200rem' : '2rem' }"
+    >
       <div @click="editClick">
         <div class="flex flex-row">
           <div class="float-right flex-auto pr-2">
-            {{ parseInt(min[method]) }}
+            {{ isNaN(parseInt(min[method])) ? '...' : parseInt(min[method]) }}
           </div>
 
           <div
@@ -23,123 +28,122 @@
           </div>
 
           <div class="text-left flex-auto pl-2">
-            {{ parseInt(max[method]) }}
+            {{ isNaN(parseInt(max[method])) ? '...' : parseInt(max[method]) }}
           </div>
         </div>
       </div>
 
-      <div class="p-2" v-if="showEdit">
-        <b-field label="Type">
-          <b-radio-button v-model="type"
-              class="ml-8"
-              native-value="linear">
-              <b-icon icon="chart-bell-curve"></b-icon>
-              <span>Linear</span>
-          </b-radio-button>
+      <transition name="fade">
+        <div class="p-2" v-if="showEdit">
+          <b-field label="Type">
+            <b-radio-button v-model="type"
+                class="ml-8"
+                native-value="linear">
+                <b-icon icon="chart-bell-curve"></b-icon>
+                <span>Linear</span>
+            </b-radio-button>
 
-          <b-radio-button v-model="type"
-              native-value="progression">
-              <b-icon icon="chart-line"></b-icon>
-              <span>Progression</span>
-          </b-radio-button>
-        </b-field>
-
-        <b-field label="Method">
-          <b-radio-button v-model="method"
-              class="ml-8"
-              native-value="metric">
-              <span>Metric</span>
-          </b-radio-button>
-
-          <b-radio-button v-model="method"
-              native-value="rank">
-              <span>Rank</span>
-          </b-radio-button>
-        </b-field>
-
-        <div v-if="type == 'linear'">
-        </div>
-
-        <div v-if="type == 'progression'">
-          <b-field label="Stops">
-            <b-input v-model="stops" type="number" min="2" max="25"></b-input>
+            <b-radio-button v-model="type"
+                native-value="progression">
+                <b-icon icon="chart-line"></b-icon>
+                <span>Progression</span>
+            </b-radio-button>
           </b-field>
+
+          <b-field label="Method">
+            <b-radio-button v-model="method"
+                class="ml-8"
+                native-value="metric">
+                <span>Metric</span>
+            </b-radio-button>
+
+            <b-radio-button v-model="method"
+                native-value="rank">
+                <span>Rank</span>
+            </b-radio-button>
+          </b-field>
+
+          <div v-if="type == 'linear'">
+          </div>
+
+          <div v-if="type == 'progression'">
+            <b-field label="Stops">
+              <b-input v-model="stops" type="number" min="2" max="25"></b-input>
+            </b-field>
+          </div>
+
+          <b-field label="Minimum Colour">
+          </b-field>
+
+          <div
+            class="w-full h-8 mb-4 rounded cursor-pointer"
+            @click="showMinimumColourModal = true"
+            :style="`background-color: ${minHex}`"
+          >
+
+          </div>
+
+          <b-modal :active.sync="showMinimumColourModal"
+                   has-modal-card
+                   trap-focus>
+              <div class="box has-text-centered" style="padding: 0!important; padding-bottom: 1rem!important;">
+                <colour-picker class="m-auto" style="box-shadow: none!important;" v-model="minColourPicker" />
+                <b-button class="m-auto mt-4" @click="showMinimumColourModal = false">
+                  Confirm
+                </b-button>
+              </div>
+          </b-modal>
+
+          <b-field label="Mid Colour" v-if="type == 'linear'">
+          </b-field>
+
+          <div
+            class="w-full h-8 mb-4 rounded cursor-pointer"
+            @click="showMidColourModal = true"
+            :style="`background-color: ${midHex}`"
+            v-if="type == 'linear'"
+          >
+
+          </div>
+
+          <b-modal :active.sync="showMidColourModal"
+                   has-modal-card
+                   trap-focus>
+              <div class="box has-text-centered" style="padding: 0!important; padding-bottom: 1rem!important;">
+                <colour-picker class="m-auto" style="box-shadow: none!important;" v-model="midColourPicker" />
+                <b-button class="m-auto mt-4" @click="showMidColourModal = false">
+                  Confirm
+                </b-button>
+              </div>
+          </b-modal>
+
+          <b-field label="Maximum Colour">
+          </b-field>
+
+          <div
+            class="w-full h-8 mb-4 rounded cursor-pointer"
+            @click="showMaximumColourModal = true"
+            :style="`background-color: ${maxHex}`"
+          >
+
+          </div>
+
+          <b-modal :active.sync="showMaximumColourModal"
+                   has-modal-card
+                   trap-focus>
+              <div class="box has-text-centered" style="padding: 0!important; padding-bottom: 1rem!important;">
+                <colour-picker class="m-auto" style="box-shadow: none!important;" v-model="maxColourPicker" />
+                <b-button class="m-auto mt-4" @click="showMaximumColourModal = false">
+                  Confirm
+                </b-button>
+              </div>
+          </b-modal>
+
+          <b-button class="m-auto mt-4" @click="save">
+            Save
+          </b-button>
         </div>
-
-        <b-field label="Minimum Colour">
-        </b-field>
-
-        <div
-          class="w-full h-8 mb-4 rounded cursor-pointer"
-          @click="showMinimumColourModal = true"
-          :style="`background-color: ${minHex}`"
-        >
-
-        </div>
-
-        <b-modal :active.sync="showMinimumColourModal"
-                 has-modal-card
-                 trap-focus
-                 class="w-1/2">
-            <div class="box has-text-centered">
-              <colour-picker class="m-auto" v-model="minColourPicker" />
-              <b-button class="m-auto mt-4" @click="showMinimumColourModal = false">
-                Confirm
-              </b-button>
-            </div>
-        </b-modal>
-
-        <b-field label="Mid Colour" v-if="type == 'linear'">
-        </b-field>
-
-        <div
-          class="w-full h-8 mb-4 rounded cursor-pointer"
-          @click="showMidColourModal = true"
-          :style="`background-color: ${midHex}`"
-          v-if="type == 'linear'"
-        >
-
-        </div>
-
-        <b-modal :active.sync="showMidColourModal"
-                 has-modal-card
-                 trap-focus
-                 class="w-1/2">
-            <div class="box has-text-centered">
-              <colour-picker class="m-auto" v-model="midColourPicker" />
-              <b-button class="m-auto mt-4" @click="showMidColourModal = false">
-                Confirm
-              </b-button>
-            </div>
-        </b-modal>
-
-        <b-field label="Maximum Colour">
-        </b-field>
-
-        <div
-          class="w-full h-8 mb-4 rounded cursor-pointer"
-          @click="showMaximumColourModal = true"
-          :style="`background-color: ${maxHex}`"
-        >
-
-        </div>
-
-        <b-modal :active.sync="showMaximumColourModal"
-                 has-modal-card
-                 trap-focus
-                 class="w-1/2">
-            <div class="box has-text-centered">
-              <colour-picker class="m-auto" v-model="maxColourPicker" />
-              <b-button class="m-auto mt-4" @click="showMaximumColourModal = false">
-                Confirm
-              </b-button>
-            </div>
-        </b-modal>
-
-        <b-button class="m-auto mt-4" @click="save">
-          Save
-        </b-button>
-      </div>
+      </transition>
 
     </div>
 </template>

@@ -42,17 +42,17 @@
 
         <PointsOfInterest
           v-else-if="currentFilter == 'poi'"
-          @close="currentFilter = null"
+          @close="closeFilter"
         />
 
         <TimeStrata
           v-else-if="currentFilter == 'time-strata'"
-          @close="currentFilter = null"
+          @close="closeFilter"
         />
 
         <AccessibilityMetric
           v-else-if="currentFilter == 'accessibility-metric'"
-          @close="currentFilter = null"
+          @close="closeFilter"
         />
       </transition>
       <div
@@ -86,6 +86,12 @@ export default {
     return {
       currentFilter: null
     };
+  },
+  methods: {
+    closeFilter() {
+      this.currentFilter = null;
+      this.$store.dispatch("metricStore/fetchAccessibilityMetrics");
+    }
   },
   computed: {
     poiFilterString() {

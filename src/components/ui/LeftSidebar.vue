@@ -32,12 +32,12 @@
 
         <DemographicFilter
           v-else-if="currentFilter == 'demographic'"
-          @close="currentFilter = null"
+          @close="closeFilter"
         />
 
         <PopulationMetric
           v-else-if="currentFilter == 'population-metric'"
-          @close="currentFilter = null"
+          @close="closeFilter"
         />
       </transition>
       <div
@@ -69,6 +69,12 @@ export default {
     return {
       currentFilter: null
     };
+  },
+  methods: {
+    closeFilter() {
+      this.currentFilter = null;
+      this.$store.dispatch("metricStore/fetchPopulationMetrics");
+    }
   },
   computed: {
     demographicFilterString() {

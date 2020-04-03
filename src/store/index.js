@@ -152,6 +152,29 @@ const parameterStore = {
     },
     pointOfInterestTypes: state => {
       return state.pointOfInterestTypes;
+    },
+    populationMetricParamString: state => {
+      var result = `?population-metric=${state.populationMetric}`;
+      state.demographic.map((demographic) => {
+        result += `&demographic=${demographic}`
+      });
+      state.pointOfInterestTypes.map((POIType) => {
+        result += `&point-of-interest-types=${POIType}`
+      });
+      state.timeStrata.map((strata) => {
+        result += `&time-strata=${strata}`
+      });
+      return result;
+    },
+    accessibilityMetricParamString: state => {
+      var result = `?accessibility-metric=${state.accessibilityMetric}`;
+      state.pointOfInterestTypes.map((POIType) => {
+        result += `&point-of-interest-types=${POIType}`
+      });
+      state.timeStrata.map((strata) => {
+        result += `&time-strata=${strata}`
+      });
+      return result;
     }
   }
 };
@@ -183,7 +206,9 @@ const metricStore = {
   state: {
     outputAreas: null,
     populationMetrics: [],
-    accessibilityMetrics: []
+    accessibilityMetrics: [],
+    populationMetricError: false,
+    accessibilityMetricError: false
   },
   mutations: {
     setOutputAreas(state, value) {
@@ -194,6 +219,12 @@ const metricStore = {
     },
     setAccessibilityMetrics(state, value) {
       state.accessibilityMetrics = value;
+    },
+    setPopulationMetricError(state, value) {
+      state.populationMetricError = value;
+    },
+    setAccessibilityMetricError(state, value) {
+      state.accessibilityMetricError = value;
     }
   },
   actions: {
@@ -202,14 +233,20 @@ const metricStore = {
         commit("setOutputAreas", response.data);
       });
     },
-    fetchPopulationMetrics({ commit }) {
-      return metricService.fetchPopulationMetrics().then(response => {
+    fetchPopulationMetrics({ commit, rootGetters }) {
+      commit("setPopulationMetrics", []);
+      return metricService.fetchPopulationMetrics(rootGetters['parameterStore/populationMetricParamString']).then(response => {
         commit("setPopulationMetrics", response.data);
+      }).catch(() => {
+        commit("setPopulationMetricError", true);
       });
     },
-    fetchAccessibilityMetrics({ commit }) {
-      return metricService.fetchAccessibilityMetrics().then(response => {
+    fetchAccessibilityMetrics({ commit, rootGetters }) {
+      commit("setAccessibilityMetrics", []);
+      return metricService.fetchAccessibilityMetrics(rootGetters['parameterStore/accessibilityMetricParamString']).then(response => {
         commit("setAccessibilityMetrics", response.data);
+      }).catch(() => {
+        commit("setAccessibilityMetricError", true);
       });
     },
     fetchAll({ dispatch }) {
@@ -222,37 +259,6 @@ const metricStore = {
   },
   getters: {
     outputAreas: (state) => {
-      if (!state.outputAreas) {
-        return null;
-      }
-      if (state.populationMetrics.length == 0) {
-        return null;
-      }
-      if (state.accessibilityMetrics.length == 0) {
-        return null;
-      }
-      /*var result = { ...state.outputAreas };
-      result.features = result.features.map(oa => {
-        var id = oa.properties.id;
-        var populationMetric = state.populationMetrics.find(
-          x => (x.output_area_id = id)
-        );
-        populationMetric = populationMetric ? populationMetric.metric : 0;
-        var accessibilityMetric = state.accessibilityMetrics.find(
-          x => (x.output_area_id = id)
-        );
-        accessibilityMetric = accessibilityMetric ? accessibilityMetric.accessibility : 0;
-        oa.properties.populationMetric = populationMetric;
-        oa.properties.relativePopulationMetric =
-          (populationMetric - getters.populationMetricMin) /
-          (getters.populationMetricMax - getters.populationMetricMin);
-        oa.properties.accessibilityMetric = accessibilityMetric;
-        oa.properties.relativeAccessibilityMetric =
-          (accessibilityMetric - getters.accessibilityMetricMin) /
-          (getters.accessibilityMetricMax - getters.accessibilityMetricMin);
-        return oa;
-      });
-      return result;*/
       return state.outputAreas;
     },
     populationMetrics: state => {
