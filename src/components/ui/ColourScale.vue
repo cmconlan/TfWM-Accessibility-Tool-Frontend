@@ -1,159 +1,176 @@
 <template>
-    <div
-      class="bg-white px-3 shadow rounded-lg overflow-hidden"
-      :class="showEdit ? 'pb-4' : 'cursor-pointer'"
-      style="transition: max-height 2s linear;"
-      :style="{ 'max-height': showEdit ? '200rem' : '2rem' }"
-    >
-      <div @click="editClick">
-        <div class="flex flex-row">
-          <div class="float-right flex-auto pr-2">
-            {{ isNaN(parseInt(min[method])) ? '...' : parseInt(min[method]) }}
-          </div>
+  <div
+    class="bg-white px-3 shadow rounded-lg overflow-hidden"
+    :class="showEdit ? 'pb-4' : 'cursor-pointer'"
+    style="transition: max-height 2s linear;"
+    :style="{ 'max-height': showEdit ? '200rem' : '2rem' }"
+  >
+    <div @click="editClick">
+      <div class="flex flex-row">
+        <div class="float-right flex-auto pr-2">
+          {{ isNaN(parseInt(min[method])) ? "..." : parseInt(min[method]) }}
+        </div>
 
+        <div
+          class="w-10/12"
+          :style="
+            `background-image: linear-gradient(to right, ${minHex}, ${midHex}, ${maxHex});`
+          "
+          v-if="type == 'linear'"
+        ></div>
+
+        <div
+          style="flexGrow: 1;"
+          v-if="type == 'progression'"
+          class="flex flex-row w-10/12"
+        >
           <div
-            class="w-10/12"
-            :style="`background-image: linear-gradient(to right, ${minHex}, ${midHex}, ${maxHex});`"
-            v-if="type=='linear'"
-          >
-          </div>
+            v-for="(stop, index) in colourStops"
+            :key="index"
+            :style="`background-color: ${stop.hexCode}`"
+            class="flex-1"
+          ></div>
+        </div>
 
-          <div style="flexGrow: 1;" v-if="type=='progression'" class="flex flex-row w-10/12">
-            <div
-              v-for="(stop, index) in colourStops"
-              :key="index"
-              :style="`background-color: ${stop.hexCode}`"
-              class="flex-1">
-            </div>
-          </div>
-
-          <div class="text-left flex-auto pl-2">
-            {{ isNaN(parseInt(max[method])) ? '...' : parseInt(max[method]) }}
-          </div>
+        <div class="text-left flex-auto pl-2">
+          {{ isNaN(parseInt(max[method])) ? "..." : parseInt(max[method]) }}
         </div>
       </div>
-
-      <transition name="fade">
-        <div class="p-2" v-if="showEdit">
-          <b-field label="Type">
-            <b-radio-button v-model="type"
-                class="ml-8"
-                native-value="linear">
-                <b-icon icon="chart-bell-curve"></b-icon>
-                <span>Linear</span>
-            </b-radio-button>
-
-            <b-radio-button v-model="type"
-                native-value="progression">
-                <b-icon icon="chart-line"></b-icon>
-                <span>Progression</span>
-            </b-radio-button>
-          </b-field>
-
-          <b-field label="Method">
-            <b-radio-button v-model="method"
-                class="ml-8"
-                native-value="metric">
-                <span>Metric</span>
-            </b-radio-button>
-
-            <b-radio-button v-model="method"
-                native-value="rank">
-                <span>Rank</span>
-            </b-radio-button>
-          </b-field>
-
-          <div v-if="type == 'linear'">
-          </div>
-
-          <div v-if="type == 'progression'">
-            <b-field label="Stops">
-              <b-input v-model="stops" type="number" min="2" max="25"></b-input>
-            </b-field>
-          </div>
-
-          <b-field label="Minimum Colour">
-          </b-field>
-
-          <div
-            class="w-full h-8 mb-4 rounded cursor-pointer"
-            @click="showMinimumColourModal = true"
-            :style="`background-color: ${minHex}`"
-          >
-
-          </div>
-
-          <b-modal :active.sync="showMinimumColourModal"
-                   has-modal-card
-                   trap-focus>
-              <div class="box has-text-centered" style="padding: 0!important; padding-bottom: 1rem!important;">
-                <colour-picker class="m-auto" style="box-shadow: none!important;" v-model="minColourPicker" />
-                <b-button class="m-auto mt-4" @click="showMinimumColourModal = false">
-                  Confirm
-                </b-button>
-              </div>
-          </b-modal>
-
-          <b-field label="Mid Colour" v-if="type == 'linear'">
-          </b-field>
-
-          <div
-            class="w-full h-8 mb-4 rounded cursor-pointer"
-            @click="showMidColourModal = true"
-            :style="`background-color: ${midHex}`"
-            v-if="type == 'linear'"
-          >
-
-          </div>
-
-          <b-modal :active.sync="showMidColourModal"
-                   has-modal-card
-                   trap-focus>
-              <div class="box has-text-centered" style="padding: 0!important; padding-bottom: 1rem!important;">
-                <colour-picker class="m-auto" style="box-shadow: none!important;" v-model="midColourPicker" />
-                <b-button class="m-auto mt-4" @click="showMidColourModal = false">
-                  Confirm
-                </b-button>
-              </div>
-          </b-modal>
-
-          <b-field label="Maximum Colour">
-          </b-field>
-
-          <div
-            class="w-full h-8 mb-4 rounded cursor-pointer"
-            @click="showMaximumColourModal = true"
-            :style="`background-color: ${maxHex}`"
-          >
-
-          </div>
-
-          <b-modal :active.sync="showMaximumColourModal"
-                   has-modal-card
-                   trap-focus>
-              <div class="box has-text-centered" style="padding: 0!important; padding-bottom: 1rem!important;">
-                <colour-picker class="m-auto" style="box-shadow: none!important;" v-model="maxColourPicker" />
-                <b-button class="m-auto mt-4" @click="showMaximumColourModal = false">
-                  Confirm
-                </b-button>
-              </div>
-          </b-modal>
-
-          <b-button class="m-auto mt-4" @click="save">
-            Save
-          </b-button>
-        </div>
-      </transition>
-
     </div>
+
+    <transition name="fade">
+      <div class="p-2" v-if="showEdit">
+        <b-field label="Type">
+          <b-radio-button v-model="type" class="ml-8" native-value="linear">
+            <b-icon icon="chart-bell-curve"></b-icon>
+            <span>Linear</span>
+          </b-radio-button>
+
+          <b-radio-button v-model="type" native-value="progression">
+            <b-icon icon="chart-line"></b-icon>
+            <span>Progression</span>
+          </b-radio-button>
+        </b-field>
+
+        <b-field label="Method">
+          <b-radio-button v-model="method" class="ml-8" native-value="metric">
+            <span>Metric</span>
+          </b-radio-button>
+
+          <b-radio-button v-model="method" native-value="rank">
+            <span>Rank</span>
+          </b-radio-button>
+        </b-field>
+
+        <div v-if="type == 'linear'"></div>
+
+        <div v-if="type == 'progression'">
+          <b-field label="Stops">
+            <b-input v-model="stops" type="number" min="2" max="25"></b-input>
+          </b-field>
+        </div>
+
+        <b-field label="Minimum Colour"> </b-field>
+
+        <div
+          class="w-full h-8 mb-4 rounded cursor-pointer"
+          @click="showMinimumColourModal = true"
+          :style="`background-color: ${minHex}`"
+        ></div>
+
+        <b-modal
+          :active.sync="showMinimumColourModal"
+          has-modal-card
+          trap-focus
+        >
+          <div
+            class="box has-text-centered"
+            style="padding: 0!important; padding-bottom: 1rem!important;"
+          >
+            <colour-picker
+              class="m-auto"
+              style="box-shadow: none!important;"
+              v-model="minColourPicker"
+            />
+            <b-button
+              class="m-auto mt-4"
+              @click="showMinimumColourModal = false"
+            >
+              Confirm
+            </b-button>
+          </div>
+        </b-modal>
+
+        <b-field label="Mid Colour" v-if="type == 'linear'"> </b-field>
+
+        <div
+          class="w-full h-8 mb-4 rounded cursor-pointer"
+          @click="showMidColourModal = true"
+          :style="`background-color: ${midHex}`"
+          v-if="type == 'linear'"
+        ></div>
+
+        <b-modal :active.sync="showMidColourModal" has-modal-card trap-focus>
+          <div
+            class="box has-text-centered"
+            style="padding: 0!important; padding-bottom: 1rem!important;"
+          >
+            <colour-picker
+              class="m-auto"
+              style="box-shadow: none!important;"
+              v-model="midColourPicker"
+            />
+            <b-button class="m-auto mt-4" @click="showMidColourModal = false">
+              Confirm
+            </b-button>
+          </div>
+        </b-modal>
+
+        <b-field label="Maximum Colour"> </b-field>
+
+        <div
+          class="w-full h-8 mb-4 rounded cursor-pointer"
+          @click="showMaximumColourModal = true"
+          :style="`background-color: ${maxHex}`"
+        ></div>
+
+        <b-modal
+          :active.sync="showMaximumColourModal"
+          has-modal-card
+          trap-focus
+        >
+          <div
+            class="box has-text-centered"
+            style="padding: 0!important; padding-bottom: 1rem!important;"
+          >
+            <colour-picker
+              class="m-auto"
+              style="box-shadow: none!important;"
+              v-model="maxColourPicker"
+            />
+            <b-button
+              class="m-auto mt-4"
+              @click="showMaximumColourModal = false"
+            >
+              Confirm
+            </b-button>
+          </div>
+        </b-modal>
+
+        <b-button class="m-auto mt-4" @click="save">
+          Save
+        </b-button>
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script>
-import { Chrome } from 'vue-color';
+import { Chrome } from "vue-color";
 
 export default {
   components: {
-    'colour-picker': Chrome,
+    "colour-picker": Chrome
   },
   props: {
     min: Object,
@@ -189,7 +206,7 @@ export default {
           b: 0
         }
       }
-    }
+    };
   },
   methods: {
     editClick() {
@@ -201,26 +218,26 @@ export default {
       var red = colour.r.toString(16).padStart(2, "0");
       var green = colour.g.toString(16).padStart(2, "0");
       var blue = colour.b.toString(16).padStart(2, "0");
-      return `#${red}${green}${blue}`
+      return `#${red}${green}${blue}`;
     },
     save() {
       this.showEdit = false;
-      this.$emit('updatefunction', this.colourFunction);
+      this.$emit("updatefunction", this.colourFunction);
     }
   },
   mounted() {
-    this.$emit('updatefunction', this.colourFunction);
+    this.$emit("updatefunction", this.colourFunction);
   },
   watch: {
     min: function() {
       console.log(this.min);
       console.log(this.max);
-      this.$emit('updatefunction', this.colourFunction);
+      this.$emit("updatefunction", this.colourFunction);
     },
     max: function() {
       console.log(this.min);
       console.log(this.max);
-      this.$emit('updatefunction', this.colourFunction);
+      this.$emit("updatefunction", this.colourFunction);
     }
   },
   computed: {
@@ -248,7 +265,7 @@ export default {
           colour: {
             r: this.minColour.r + parseInt(index * redStep),
             g: this.minColour.g + parseInt(index * greenStep),
-            b: this.minColour.b + parseInt(index * blueStep),
+            b: this.minColour.b + parseInt(index * blueStep)
           }
         };
         result.hexCode = this.toHex(result.colour);
@@ -277,11 +294,13 @@ export default {
       const colourStops = this.colourStops;
       const stops = this.stops;
       const toHex = this.toHex;
-      return (function(metrics) {
+      return function(metrics) {
         /* eslint no-console: ["error", { allow: ["log", "error"] }] */
         //console.log(max);
         var metric = metrics[this.method];
-        var relativeMetric = (metric - this.min[this.method]) / (this.max[this.method] - this.min[this.method]);
+        var relativeMetric =
+          (metric - this.min[this.method]) /
+          (this.max[this.method] - this.min[this.method]);
         if (isNaN(relativeMetric)) {
           relativeMetric = 1;
         }
@@ -293,7 +312,7 @@ export default {
           }
           var index = Math.floor(relativeMetric * stopCount);
           if (index == stopCount) {
-            index --;
+            index--;
           }
           return colourStops[index].hexCode;
         } else {
@@ -306,13 +325,19 @@ export default {
             maxColour = maxColourOrig;
           }
           var result = {
-            r: parseInt(minColour.r + relativeMetric * (maxColour.r - minColour.r)),
-            g: parseInt(minColour.g + relativeMetric * (maxColour.g - minColour.g)),
-            b: parseInt(minColour.b + relativeMetric * (maxColour.b - minColour.b))
-          }
+            r: parseInt(
+              minColour.r + relativeMetric * (maxColour.r - minColour.r)
+            ),
+            g: parseInt(
+              minColour.g + relativeMetric * (maxColour.g - minColour.g)
+            ),
+            b: parseInt(
+              minColour.b + relativeMetric * (maxColour.b - minColour.b)
+            )
+          };
           return toHex(result);
         }
-      }).bind(this);
+      }.bind(this);
     }
   }
 };

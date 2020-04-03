@@ -155,24 +155,24 @@ const parameterStore = {
     },
     populationMetricParamString: state => {
       var result = `?population-metric=${state.populationMetric}`;
-      state.demographic.map((demographic) => {
-        result += `&demographic=${demographic}`
+      state.demographic.map(demographic => {
+        result += `&demographic=${demographic}`;
       });
-      state.pointOfInterestTypes.map((POIType) => {
-        result += `&point-of-interest-types=${POIType}`
+      state.pointOfInterestTypes.map(POIType => {
+        result += `&point-of-interest-types=${POIType}`;
       });
-      state.timeStrata.map((strata) => {
-        result += `&time-strata=${strata}`
+      state.timeStrata.map(strata => {
+        result += `&time-strata=${strata}`;
       });
       return result;
     },
     accessibilityMetricParamString: state => {
       var result = `?accessibility-metric=${state.accessibilityMetric}`;
-      state.pointOfInterestTypes.map((POIType) => {
-        result += `&point-of-interest-types=${POIType}`
+      state.pointOfInterestTypes.map(POIType => {
+        result += `&point-of-interest-types=${POIType}`;
       });
-      state.timeStrata.map((strata) => {
-        result += `&time-strata=${strata}`
+      state.timeStrata.map(strata => {
+        result += `&time-strata=${strata}`;
       });
       return result;
     }
@@ -182,10 +182,14 @@ const parameterStore = {
 const mapStore = {
   namespaced: true,
   state: {
+    selectedOA: null,
     masterMapId: null,
     masterMapTimestamp: Moment()
   },
   mutations: {
+    setSelectedOA(state, value) {
+      state.selectedOA = value;
+    },
     setMasterMapId(state, value) {
       state.masterMapId = value;
       state.masterMapTimestamp = Moment();
@@ -235,19 +239,29 @@ const metricStore = {
     },
     fetchPopulationMetrics({ commit, rootGetters }) {
       commit("setPopulationMetrics", []);
-      return metricService.fetchPopulationMetrics(rootGetters['parameterStore/populationMetricParamString']).then(response => {
-        commit("setPopulationMetrics", response.data);
-      }).catch(() => {
-        commit("setPopulationMetricError", true);
-      });
+      return metricService
+        .fetchPopulationMetrics(
+          rootGetters["parameterStore/populationMetricParamString"]
+        )
+        .then(response => {
+          commit("setPopulationMetrics", response.data);
+        })
+        .catch(() => {
+          commit("setPopulationMetricError", true);
+        });
     },
     fetchAccessibilityMetrics({ commit, rootGetters }) {
       commit("setAccessibilityMetrics", []);
-      return metricService.fetchAccessibilityMetrics(rootGetters['parameterStore/accessibilityMetricParamString']).then(response => {
-        commit("setAccessibilityMetrics", response.data);
-      }).catch(() => {
-        commit("setAccessibilityMetricError", true);
-      });
+      return metricService
+        .fetchAccessibilityMetrics(
+          rootGetters["parameterStore/accessibilityMetricParamString"]
+        )
+        .then(response => {
+          commit("setAccessibilityMetrics", response.data);
+        })
+        .catch(() => {
+          commit("setAccessibilityMetricError", true);
+        });
     },
     fetchAll({ dispatch }) {
       return dispatch("fetchAccessibilityMetrics").then(() => {
@@ -258,7 +272,7 @@ const metricStore = {
     }
   },
   getters: {
-    outputAreas: (state) => {
+    outputAreas: state => {
       return state.outputAreas;
     },
     populationMetrics: state => {
@@ -274,30 +288,46 @@ const metricStore = {
       return state.accessibilityMetrics[id];
     },
     populationMetricMin: state => {
-      if (state.populationMetrics.length == 0) {return {metric: NaN, rank: NaN};}
+      if (state.populationMetrics.length == 0) {
+        return { metric: NaN, rank: NaN };
+      }
       return {
-        metric: Math.min(...Object.values(state.populationMetrics).map(x => x.metric)),
+        metric: Math.min(
+          ...Object.values(state.populationMetrics).map(x => x.metric)
+        ),
         rank: 1
       };
     },
     populationMetricMax: state => {
-      if (state.populationMetrics.length == 0) {return {metric: NaN, rank: NaN};}
+      if (state.populationMetrics.length == 0) {
+        return { metric: NaN, rank: NaN };
+      }
       return {
-        metric: Math.max(...Object.values(state.populationMetrics).map(x => x.metric)),
+        metric: Math.max(
+          ...Object.values(state.populationMetrics).map(x => x.metric)
+        ),
         rank: Object.values(state.populationMetrics).length
       };
     },
     accessibilityMetricMin: state => {
-      if (state.accessibilityMetrics.length == 0) {return {metric: NaN, rank: NaN};}
+      if (state.accessibilityMetrics.length == 0) {
+        return { metric: NaN, rank: NaN };
+      }
       return {
-        metric: Math.min(...Object.values(state.accessibilityMetrics).map(x => x.metric)),
+        metric: Math.min(
+          ...Object.values(state.accessibilityMetrics).map(x => x.metric)
+        ),
         rank: 1
       };
     },
     accessibilityMetricMax: state => {
-      if (state.accessibilityMetrics.length == 0) {return {metric: NaN, rank: NaN};}
+      if (state.accessibilityMetrics.length == 0) {
+        return { metric: NaN, rank: NaN };
+      }
       return {
-        metric: Math.max(...Object.values(state.accessibilityMetrics).map(x => x.metric)),
+        metric: Math.max(
+          ...Object.values(state.accessibilityMetrics).map(x => x.metric)
+        ),
         rank: Object.values(state.accessibilityMetrics).length
       };
     }

@@ -43,7 +43,12 @@
               </div>
             </div>
           </transition>
-          <Map class="w-full h-full" :id="1" metric-type="population" is-visible="showLeftMap" />
+          <Map
+            class="w-full h-full"
+            :id="1"
+            metric-type="population"
+            :is-visible="showLeftMap"
+          />
         </div>
       </div>
       <multipane-resizer></multipane-resizer>
@@ -64,7 +69,13 @@
               </div>
             </div>
           </transition>
-          <Map class="w-full h-full" :id="2" metric-type="accessibility" is-visible="showRightMap" @mousedown.self="null" />
+          <Map
+            class="w-full h-full"
+            :id="2"
+            metric-type="accessibility"
+            :is-visible="showRightMap"
+            @mousedown.self="null"
+          />
         </div>
       </div>
     </multipane>

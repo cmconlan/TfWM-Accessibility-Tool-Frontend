@@ -1,6 +1,10 @@
 <template>
   <div style="height: calc(100vh - 3rem)">
-    <div v-if="error" class="absolute top-0 left-0 w-full h-full bg-blue-500" style="z-index: 9999999; backdrop-filter: blur(5px); background-color: rgba(255, 255, 255, .15);">
+    <div
+      v-if="error"
+      class="absolute top-0 left-0 w-full h-full bg-blue-500"
+      style="z-index: 9999999; backdrop-filter: blur(5px); background-color: rgba(255, 255, 255, .15);"
+    >
       <div
         class="inline-block w-2/3 h-1/3 bg-white rounded p-8 m-auto"
         style="margin-top: 30vh; margin-left: 16%;"
@@ -11,8 +15,10 @@
         <h2 class="subtitle is-3 w-full text-center has-text-dark h-full pb-2">
           We can't refresh this map
         </h2>
-        Try reloading the page, or contact<br>
-        <a target="_" href="mailto:transport-access-tool@dcs.warwick.ac.uk">transport-access-tool@dcs.warwick.ac.uk</a>.
+        Try reloading the page, or contact<br />
+        <a target="_" href="mailto:transport-access-tool@dcs.warwick.ac.uk"
+          >transport-access-tool@dcs.warwick.ac.uk</a
+        >.
       </div>
     </div>
     <l-map
@@ -23,11 +29,21 @@
       @update:center="centerUpdate"
       @update:zoom="zoomUpdate"
     >
-      <b-loading :is-full-page="false" :active="loading" :can-cancel="true" style="z-index: 99999;"></b-loading>
+      <b-loading
+        :is-full-page="false"
+        :active="loading"
+        :can-cancel="true"
+        style="z-index: 99999;"
+      ></b-loading>
       <l-tile-layer :url="url" :attribution="attribution" />
-      <l-geo-json :geojson="geojson" :options-style="styleFunction" />
+      <l-geo-json
+        :geojson="geojson"
+        :options="options"
+        :options-style="styleFunction"
+      />
     </l-map>
     <ColourScale
+      v-if="isVisible"
       :min="min"
       :max="max"
       class="absolute top-0 right-0 w-1/2 m-2"
@@ -70,6 +86,9 @@ export default {
         this.zoom = newZoom;
       }
     });
+    EventBus.$on("updateSelectedOA", (id) => {
+      this.$store.commit('mapStore/setSelectedOA', id);
+    })
   },
   props: {
     id: Number,
@@ -130,26 +149,87 @@ export default {
       populationMetrics: "metricStore/populationMetrics",
       accessibilityMetrics: "metricStore/accessibilityMetrics"
     }),
+    options() {
+      return {
+        onEachFeature: this.onEachFeatureFunction
+      };
+    },
+    onEachFeatureFunction() {
+      const evBus = EventBus;
+      const selectedOA = this.$store.state.mapStore.selectedOA;
+
+      return ((feature, layer) => {
+        layer.on("mouseover", function() {
+          if (this.feature.id != selectedOA) {
+            this.setStyle({
+              weight: 0.5,
+              color: "#000000",
+              fillOpacity: 1
+            });
+          }
+        });
+
+        layer.on("mouseout", function() {
+          if (this.feature.id != selectedOA) {
+            this.setStyle({
+              weight: 0.5,
+              color: "#050505",
+              fillOpacity: 0.4
+            });
+          }
+        });
+
+        layer.on("click", function() {
+          evBus.$emit('updateSelectedOA', this.feature.id);
+        });
+
+        var populationMetric = this.$store.getters[
+          "metricStore/populationMetric"
+        ](feature.id);
+        var accessibilityMetric = this.$store.getters[
+          "metricStore/accessibilityMetric"
+        ](feature.id);
+        var rankCount = this.$store.getters["metricStore/populationMetricMax"]
+          .rank;
+
+        layer.bindTooltip(
+          `<div>Area ID: ${feature.id}</div>
+          <div>Population: ${feature.properties.population}</div>
+          <div>Population Metric: ${populationMetric.metric.toFixed(2)} (${
+            populationMetric.rank
+          } of ${rankCount})</div>
+          <div>Accessibility Metric: ${accessibilityMetric.metric.toFixed(
+            2
+          )} (${accessibilityMetric.rank} of ${rankCount})</div>`,
+          { permanent: false, sticky: true }
+        );
+      }).bind(this);
+    },
     styleFunction() {
       /* eslint no-console: ["error", { allow: ["log", "error"] }] */
 
       const colourFunction = this.colourFunction;
+      const selectedOA = this.$store.state.mapStore.selectedOA;
       /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "updateWatch" }]*/
       const updateWatch = this.colourFunctionUpdateWatch;
 
       this.OAsLoaded = 0;
 
-      return ((outputArea) => {
+      return (outputArea => {
         var metric;
 
         if (this.metricType == "population") {
-          metric = this.$store.getters['metricStore/populationMetric'](outputArea.id);
+          metric = this.$store.getters["metricStore/populationMetric"](
+            outputArea.id
+          );
         } else {
-          metric = this.$store.getters['metricStore/accessibilityMetric'](outputArea.id);
+          metric = this.$store.getters["metricStore/accessibilityMetric"](
+            outputArea.id
+          );
         }
 
         if (!metric) {
-          this.OAsLoaded ++;
+          this.OAsLoaded++;
           return {
             weight: 0.5,
             color: "#050505",
@@ -158,22 +238,26 @@ export default {
             fillOpacity: 1
           };
         }
-        var colour = colourFunction(metric);
 
-        this.OAsLoaded ++;
+        var colour = colourFunction(metric);
+        var isSelected = outputArea.id == selectedOA;
+
+        this.OAsLoaded++;
 
         return {
-          weight: 0.5,
-          color: "#050505",
+          weight: isSelected ? 1 : 0.5,
+          color: isSelected ? "#000000" : "#050505",
           opacity: 1,
           fillColor: colour,
-          fillOpacity: 0.4
+          fillOpacity: isSelected ? 1 : 0.4
         };
       }).bind(this);
     },
     geojson() {
       console.log(`${this.geojsonSource}`);
-      return (isNaN(this.min.rank) || isNaN(this.max.rank)) ? null : this.geojsonSource;
+      return isNaN(this.min.rank) || isNaN(this.max.rank)
+        ? null
+        : this.geojsonSource;
     },
     min() {
       if (this.metricType == "population") {
@@ -197,7 +281,7 @@ export default {
       }
     },
     loading() {
-      return !this.error && (this.OAsLoaded < this.totalOAs);
+      return !this.error && this.OAsLoaded < this.totalOAs;
     }
   },
   data() {
