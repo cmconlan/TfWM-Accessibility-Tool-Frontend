@@ -5,7 +5,10 @@
     style="transition: max-height 2s linear;"
     :style="{ 'max-height': showEdit ? '200rem' : '2rem' }"
   >
-    <div @click="editClick">
+    <div v-show="!showEdit" class="absolute top-0 left-0 w-full h-full hover-blur text-center has-text-white" @click="editClick">
+      Edit
+    </div>
+    <div>
       <div class="flex flex-row">
         <div class="float-right flex-auto pr-2">
           {{ isNaN(parseInt(min[method])) ? "..." : parseInt(min[method]) }}
@@ -350,5 +353,14 @@ export default {
 <style>
 .animation-content {
   z-index: 99;
+}
+.hover-blur:hover {
+  opacity: 1;
+}
+.hover-blur {
+  opacity: 0;
+  transition: opacity 0.5s;
+  backdrop-filter: blur(5px);
+  background-color: rgba(255, 255, 255, .15);
 }
 </style>
