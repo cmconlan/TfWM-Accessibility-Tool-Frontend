@@ -56,7 +56,7 @@
         />
       </transition>
       <div
-        class="absolute bottom-0 mb-6 w-full pr-16 py-2 hover:bg-gray-300 cursor-pointer text-right"
+        class="absolute bottom-0 w-full pr-16 py-4 hover:bg-gray-300 cursor-pointer text-right"
         style="transition: 0.2s"
         @click="$emit('collapse')"
       >

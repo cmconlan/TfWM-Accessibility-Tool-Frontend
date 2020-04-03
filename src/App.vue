@@ -22,7 +22,7 @@
     <Header style="position: fixed;" class="w-full" />
     <div
       class="flex-grow flex flex-row mt-12"
-      style="background-color: #F0F0F0;"
+      style="background-color: #F0F0F0; height: 85%;"
     >
       <PageContent class="relative z-10" />
     </div>
