@@ -1,6 +1,7 @@
 <template>
   <div style="height: calc(100vh - 3rem)">
     <l-map
+      v-if="isVisible"
       :zoom="zoom"
       :center="center"
       :options="mapOptions"
@@ -57,7 +58,8 @@ export default {
   },
   props: {
     id: Number,
-    metricType: String
+    metricType: String,
+    isVisible: Boolean
   },
   methods: {
     updateColourFunction(fn) {

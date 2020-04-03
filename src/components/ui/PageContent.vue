@@ -22,7 +22,7 @@
       class="custom-resizer"
       :class="mapWidth"
       style="transition: width 0.5s;"
-      @paneResize.self="paneResized"
+      @paneResize="paneResized"
       @paneResizeStop.self="paneResizeStopped"
       @paneResizeStart.self="paneRisizeStarted"
     >
@@ -43,7 +43,7 @@
               </div>
             </div>
           </transition>
-          <Map class="w-full h-full" :id="1" metric-type="population" />
+          <Map class="w-full h-full" :id="1" metric-type="population" is-visible="showLeftMap" />
         </div>
       </div>
       <multipane-resizer></multipane-resizer>
@@ -64,7 +64,7 @@
               </div>
             </div>
           </transition>
-          <Map class="w-full h-full" :id="2" metric-type="accessibility" />
+          <Map class="w-full h-full" :id="2" metric-type="accessibility" is-visible="showRightMap" @mousedown.self="null" />
         </div>
       </div>
     </multipane>
@@ -139,11 +139,8 @@ export default {
         this.$refs["leftMap"].style.width = "100%";
         this.showRightMap = true;
       }
-      console.log(this.$refs["leftMap"].style);
     },
     paneResized($el1, $el2, $size) {
-      /* eslint no-console: ["error", { allow: ["log", "error"] }] */
-      console.log($size);
       var floatSize = parseFloat($size.slice(0, -1));
       if (floatSize <= 10) {
         this.showLeftMapCollapse = true;

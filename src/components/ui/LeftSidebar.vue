@@ -92,9 +92,10 @@ export default {
     },
     populationMetricFilterString() {
       var selectedKey = this.$store.state.parameterStore.populationMetric;
-      return this.$store.state.metaStore.populationMetric.find(
+      var result = this.$store.state.metaStore.populationMetric.find(
         x => x.key == selectedKey
-      ).value;
+      );
+      return result ? result.value : "";
     }
   }
 };
