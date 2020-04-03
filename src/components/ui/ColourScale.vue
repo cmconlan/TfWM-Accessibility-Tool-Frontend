@@ -39,27 +39,35 @@
     </div>
 
     <transition name="fade">
-      <div class="p-2" v-if="showEdit">
+      <div class="p-2 mt-4" v-if="showEdit">
         <b-field label="Type">
-          <b-radio-button v-model="type" class="ml-8" native-value="linear">
-            <b-icon icon="chart-bell-curve"></b-icon>
-            <span>Linear</span>
-          </b-radio-button>
 
-          <b-radio-button v-model="type" native-value="progression">
-            <b-icon icon="chart-line"></b-icon>
-            <span>Progression</span>
-          </b-radio-button>
+          <b-field>
+            <b-radio-button v-model="type" class="w-1/2" native-value="linear">
+              <b-icon icon="chart-bell-curve"></b-icon>
+              <span>Linear</span>
+            </b-radio-button>
+
+            <b-radio-button v-model="type" class="w-1/2" native-value="progression">
+              <b-icon icon="chart-line"></b-icon>
+              <span>Progression</span>
+            </b-radio-button>
+          </b-field>
+
         </b-field>
 
         <b-field label="Method">
-          <b-radio-button v-model="method" class="ml-8" native-value="metric">
-            <span>Metric</span>
-          </b-radio-button>
 
-          <b-radio-button v-model="method" native-value="rank">
-            <span>Rank</span>
-          </b-radio-button>
+          <b-field>
+            <b-radio-button v-model="method" class="w-1/2" native-value="metric">
+              <span>Metric</span>
+            </b-radio-button>
+
+            <b-radio-button v-model="method" class="w-1/2" native-value="rank">
+              <span>Rank</span>
+            </b-radio-button>
+          </b-field>
+
         </b-field>
 
         <div v-if="type == 'linear'"></div>
@@ -79,6 +87,7 @@
         ></div>
 
         <b-modal
+          style="position: absolute!important;"
           :active.sync="showMinimumColourModal"
           has-modal-card
           trap-focus
@@ -110,7 +119,7 @@
           v-if="type == 'linear'"
         ></div>
 
-        <b-modal :active.sync="showMidColourModal" has-modal-card trap-focus>
+        <b-modal style="position: absolute!important;" :active.sync="showMidColourModal" has-modal-card trap-focus>
           <div
             class="box has-text-centered"
             style="padding: 0!important; padding-bottom: 1rem!important;"
@@ -135,6 +144,7 @@
         ></div>
 
         <b-modal
+          style="position: absolute!important;"
           :active.sync="showMaximumColourModal"
           has-modal-card
           trap-focus
@@ -157,7 +167,7 @@
           </div>
         </b-modal>
 
-        <b-button class="m-auto mt-4" @click="save">
+        <b-button class="m-auto mt-2 is-primary is-pulled-right" @click="save">
           Save
         </b-button>
       </div>
