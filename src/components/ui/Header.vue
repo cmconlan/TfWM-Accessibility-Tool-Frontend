@@ -2,6 +2,7 @@
   <b-navbar
     class="is-primary overflow-hidden h-12"
     style="min-height: 0!important;"
+    :mobile-burger="false"
   >
     <template slot="brand"></template>
 
