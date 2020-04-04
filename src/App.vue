@@ -1,5 +1,17 @@
 <template>
   <div id="app" class="flex flex-col h-screen">
+    <transition name="slide-up">
+      <div v-if="started && loading" class="opacity-1 absolute w-full h-full has-background-primary has-text-centered" style="z-index: 9999999999999999;">
+        <radar-spinner
+          class="m-auto"
+          style="margin-top: 30vh"
+          :animation-duration="2000"
+          :size="170"
+          color="#FFFFFF"
+        />
+        <h1 class="title is-1 mt-8 has-text-white">Loading...</h1>
+      </div>
+    </transition>
     <div
       v-if="apiError"
       class="w-full h-full absolute bg-white text-center"
@@ -20,7 +32,7 @@
       </div>
     </div>
     <div
-      v-if="!smallScreenContinue"
+      v-if="!loading && !smallScreenContinue"
       class="w-full h-full absolute bg-white text-center visible md:invisible"
       style="z-index: 999999999; backdrop-filter: blur(5px); background-color: rgba(255, 255, 255, .15);"
     >
@@ -39,8 +51,9 @@
         </b-button>
       </div>
     </div>
-    <Header style="position: fixed;" class="w-full" />
+    <Header v-if="!loading" style="position: fixed;" class="w-full" />
     <div
+      v-if="!loading"
       class="flex-grow flex flex-row mt-12"
       style="background-color: #F0F0F0; height: 85%;"
     >
@@ -51,28 +64,36 @@
 
 <script>
 import Header from "@/components/ui/Header";
+import { RadarSpinner } from 'epic-spinners';
 import PageContent from "@/components/ui/PageContent";
 
 export default {
   components: {
     Header,
-    PageContent
+    PageContent,
+    RadarSpinner
   },
   data() {
     return {
+      loading: true,
+      started: false,
       apiError: false,
-      smallScreenContinue: false
+      smallScreenContinue: false,
     };
   },
   mounted() {
+    this.started = true;
     this.$store
       .dispatch("metaStore/fetchAllMetaData")
       .then(() => {
         this.$store.dispatch("parameterStore/initialiseParameters");
-        this.$store.dispatch("metricStore/fetchAll");
+        this.$store.dispatch("metricStore/fetchAll").then(() => {
+          this.loading = false;
+        });
       })
       .catch(() => {
         this.apiError = true;
+        this.loading = false;
       });
   }
 };
@@ -84,6 +105,21 @@ export default {
 html {
   overflow: hidden !important;
 }
+
+.slide-up-enter-active {
+  transition: all .3s ease;
+  transition-delay: 0.5s;
+}
+.slide-up-leave-active {
+  transition: all 1.5s ease;
+}
+.slide-up-enter {
+  opacity: 0;
+}
+.slide-up-leave-to {
+  transform: translateY(-95vh);
+}
+
 </style>
 
 <style lang="scss">

@@ -141,7 +141,7 @@ export default {
       var keyValPair = this.$store.state.metaStore.accessibilityMetric.find(
         x => x.key == this.$store.state.parameterStore.accessibilityMetric
       );
-      return keyValPair.value;
+      return keyValPair ? keyValPair.value : "";
     }
   }
 };
