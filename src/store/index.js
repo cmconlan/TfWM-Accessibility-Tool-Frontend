@@ -156,7 +156,7 @@ const parameterStore = {
     populationMetricParamString: state => {
       var result = `?population-metric=${state.populationMetric}`;
       state.demographic.map(demographic => {
-        result += `&demographic=${demographic}`;
+        result += `&demographic-group=${demographic}`;
       });
       state.pointOfInterestTypes.map(POIType => {
         result += `&point-of-interest-types=${POIType}`;
