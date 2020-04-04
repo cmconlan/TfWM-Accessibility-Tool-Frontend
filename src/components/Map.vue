@@ -46,7 +46,7 @@
       v-if="isVisible"
       :min="min"
       :max="max"
-      class="absolute top-0 right-0 w-1/2 m-2"
+      class="absolute top-0 right-0 w-3/4 xl:w-1/2 m-2"
       style="z-index: 9999;"
       @updatefunction="updateColourFunction"
     />

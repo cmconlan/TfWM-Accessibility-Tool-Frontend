@@ -19,6 +19,26 @@
         transport-access-tool@dcs.warwick.ac.uk.
       </div>
     </div>
+    <div
+      v-if="!smallScreenContinue"
+      class="w-full h-full absolute bg-white text-center visible md:invisible"
+      style="z-index: 999999999; backdrop-filter: blur(5px); background-color: rgba(255, 255, 255, .15);"
+    >
+      <div
+        class="inline-block w-11/12 h-1/3 bg-white rounded p-8 shadow border border-gray-200"
+        style="margin-top: 10vh"
+      >
+        <h1 class="title is-3 w-full text-center has-text-primary h-full pb-8">
+          Just a heads up
+        </h1>
+        <div>
+          We've detected that your screen size is very small. This application is designed to work on larger screens, so you may have a sub-optimal experience if you continue. We recommend accessing this site on a desktop or laptop computer.
+        </div>
+        <b-button class="is-primary mt-4" @click="smallScreenContinue = true">
+          Continue Anyway
+        </b-button>
+      </div>
+    </div>
     <Header style="position: fixed;" class="w-full" />
     <div
       class="flex-grow flex flex-row mt-12"
@@ -40,7 +60,8 @@ export default {
   },
   data() {
     return {
-      apiError: false
+      apiError: false,
+      smallScreenContinue: false
     };
   },
   mounted() {

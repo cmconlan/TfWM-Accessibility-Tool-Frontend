@@ -47,13 +47,11 @@
 
           <b-field>
             <b-radio-button v-model="type" class="w-1/2" native-value="linear">
-              <b-icon icon="chart-bell-curve"></b-icon>
               <span>Linear</span>
             </b-radio-button>
 
             <b-radio-button v-model="type" class="w-1/2" native-value="progression">
-              <b-icon icon="chart-line"></b-icon>
-              <span>Progression</span>
+              <span>Discrete</span>
             </b-radio-button>
           </b-field>
 

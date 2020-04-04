@@ -3,7 +3,7 @@
     <LeftSidebar
       class="relative z-20"
       style="transition: width 0.5s;"
-      :style="{ width: showLeftSidebar ? '16%' : '0%' }"
+      :style="{ width: showLeftSidebar ? '20rem' : '0%' }"
       @collapse="showLeftSidebarMaster = false"
     />
 
@@ -94,7 +94,7 @@
     <RightSidebar
       class="relative z-20"
       style="transition: width 0.5s;"
-      :style="{ width: showRightSidebar ? '16%' : '0%' }"
+      :style="{ width: showRightSidebar ? '20rem' : '0%' }"
       @collapse="showRightSidebarMaster = false"
     />
   </div>
