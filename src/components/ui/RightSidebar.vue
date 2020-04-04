@@ -5,7 +5,8 @@
       style="box-shadow: 3px 0px 20px 10px rgba(0,0,0,.25)"
       key="home"
     >
-      <h1 class="title has-text-dark m-3 text-right">Accessibility</h1>
+      <h1 class="title has-text-dark m-3 hidden text-right lg:block">Accessibility</h1>
+      <h1 class="title has-text-dark m-3 is-4 text-right lg:hidden block">Accessibility</h1>
       <h2 class="subtitle m-3 has-text-primary is-6 text-right">
         Map Accessibility Score
       </h2>

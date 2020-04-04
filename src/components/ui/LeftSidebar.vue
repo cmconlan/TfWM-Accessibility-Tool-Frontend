@@ -5,7 +5,8 @@
       style="box-shadow: 3px 0px 20px 10px rgba(0,0,0,.25)"
       key="home"
     >
-      <h1 class="title has-text-dark m-3">Population</h1>
+      <h1 class="title has-text-dark m-3 hidden lg:block">Population</h1>
+      <h1 class="title has-text-dark m-3 is-4 lg:hidden block">Population</h1>
       <h2 class="subtitle m-3 has-text-primary is-6">Map Population Density</h2>
 
       <h2
