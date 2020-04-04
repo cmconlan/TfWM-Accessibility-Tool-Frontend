@@ -117,10 +117,31 @@ export default {
       return result;
     },
     timeStrataFilterString() {
-      return "All";
+      var result = "";
+
+      if (
+        this.$store.state.parameterStore.timeStrata.length ==
+        this.$store.state.metaStore.timeStrata.length
+      ) {
+        result += "&nbsp&nbsp&nbspAll<br>";
+      } else {
+        this.$store.state.parameterStore.timeStrata.map(
+          timeStrata => {
+            var keyValPair = this.$store.state.metaStore.timeStrata.find(
+              x => x.key == timeStrata
+            );
+            result += `${keyValPair.value}<br>`;
+          }
+        );
+      }
+
+      return result;
     },
     accessibilityMetricFilterString() {
-      return "All";
+      var keyValPair = this.$store.state.metaStore.accessibilityMetric.find(
+        x => x.key == this.$store.state.parameterStore.accessibilityMetric
+      );
+      return keyValPair.value;
     }
   }
 };
