@@ -87,7 +87,7 @@ export default {
       .dispatch("metaStore/fetchAllMetaData")
       .then(() => {
         this.$store.dispatch("parameterStore/initialiseParameters");
-        this.$store.dispatch("metricStore/fetchAll").then(() => {
+        this.$store.dispatch("metricStore/fetchAll").finally(() => {
           this.loading = false;
         });
       })
