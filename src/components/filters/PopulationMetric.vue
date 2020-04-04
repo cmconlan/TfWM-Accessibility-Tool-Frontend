@@ -1,20 +1,22 @@
 <template>
-  <div>
-    <section class="p-4">
-      <b-field
-        v-for="populationMetricsValue in metaPopulationMetrics"
-        :key="populationMetricsValue.key"
-      >
-        <b-radio
-          v-model="populationMetric"
-          :native-value="populationMetricsValue.key"
+  <div class="flex flex-col h-full">
+    <div class="p-4 flex flex-col" style="height: 50%;">
+      <div class="overflow-auto">
+        <b-field
+          v-for="populationMetricsValue in metaPopulationMetrics"
+          :key="populationMetricsValue.key"
         >
-          {{ populationMetricsValue.value }}
-        </b-radio>
-      </b-field>
-    </section>
+          <b-radio
+            v-model="populationMetric"
+            :native-value="populationMetricsValue.key"
+          >
+            {{ populationMetricsValue.value }}
+          </b-radio>
+        </b-field>
+      </div>
+    </div>
 
-    <div class="absolute bottom-0 mb-20 w-full flex flex-row">
+    <div class="mb-20 w-full flex flex-row" style="height:10%;">
       <div class="w-1/2 p-1">
         <a class="button is-dark w-full" @click="apply">
           <Check />

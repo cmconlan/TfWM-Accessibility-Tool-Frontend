@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <section class="p-4">
+  <div class="flex flex-col h-full">
+    <div class="p-4 flex flex-col" style="height: 50%;">
       <b-field label="Points of Interest"></b-field>
 
       <b-field>
@@ -9,21 +9,23 @@
         </b-checkbox>
       </b-field>
 
-      <b-field
-        v-for="pointOfInterestTypesValue in metaPointOfInterestTypes"
-        :key="pointOfInterestTypesValue.key"
-      >
-        <b-checkbox
-          v-model="pointOfInterestType"
-          :native-value="pointOfInterestTypesValue.key"
-          :disabled="allPointOfInterestTypes"
+      <div class="overflow-auto">
+        <b-field
+          v-for="pointOfInterestTypesValue in metaPointOfInterestTypes"
+          :key="pointOfInterestTypesValue.key"
         >
-          {{ pointOfInterestTypesValue.value }}
-        </b-checkbox>
-      </b-field>
-    </section>
+          <b-checkbox
+            v-model="pointOfInterestType"
+            :native-value="pointOfInterestTypesValue.key"
+            :disabled="allPointOfInterestTypes"
+          >
+            {{ pointOfInterestTypesValue.value }}
+          </b-checkbox>
+        </b-field>
+      </div>
+    </div>
 
-    <div class="absolute bottom-0 mb-20 w-full flex flex-row">
+    <div class="mb-20 w-full flex flex-row" style="height:10%;">
       <div class="w-1/2 p-1">
         <a class="button is-dark w-full" @click="apply">
           <Check />
