@@ -92,6 +92,7 @@ export default {
     closeFilter() {
       this.currentFilter = null;
       this.$store.dispatch("metricStore/fetchAccessibilityMetrics");
+      this.$store.dispatch("metricStore/fetchPopulationMetrics");
     }
   },
   computed: {
