@@ -67,6 +67,7 @@ nvm use node
 
 # Grab the latest codebase
 cd ~/TfWM-Accessibility-Tool-Frontend
+git stash
 git fetch
 git pull
 
