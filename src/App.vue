@@ -1,7 +1,11 @@
 <template>
   <div id="app" class="flex flex-col h-screen">
     <transition name="slide-up">
-      <div v-if="started && loading" class="opacity-1 absolute w-full h-full has-background-primary has-text-centered" style="z-index: 9999999999999999;">
+      <div
+        v-if="started && loading"
+        class="opacity-1 absolute w-full h-full has-background-primary has-text-centered"
+        style="z-index: 9999999999999999;"
+      >
         <radar-spinner
           class="m-auto"
           style="margin-top: 30vh"
@@ -44,7 +48,10 @@
           Just a heads up
         </h1>
         <div>
-          We've detected that your screen size is very small. This application is designed to work on larger screens, so you may have a sub-optimal experience if you continue. We recommend accessing this site on a desktop or laptop computer.
+          We've detected that your screen size is very small. This application
+          is designed to work on larger screens, so you may have a sub-optimal
+          experience if you continue. We recommend accessing this site on a
+          desktop or laptop computer.
         </div>
         <b-button class="is-primary mt-4" @click="smallScreenContinue = true">
           Continue Anyway
@@ -64,7 +71,7 @@
 
 <script>
 import Header from "@/components/ui/Header";
-import { RadarSpinner } from 'epic-spinners';
+import { RadarSpinner } from "epic-spinners";
 import PageContent from "@/components/ui/PageContent";
 
 export default {
@@ -78,7 +85,7 @@ export default {
       loading: true,
       started: false,
       apiError: false,
-      smallScreenContinue: false,
+      smallScreenContinue: false
     };
   },
   mounted() {
@@ -107,7 +114,7 @@ html {
 }
 
 .slide-up-enter-active {
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   transition-delay: 0.5s;
 }
 .slide-up-leave-active {
@@ -119,7 +126,6 @@ html {
 .slide-up-leave-to {
   transform: translateY(-95vh);
 }
-
 </style>
 
 <style lang="scss">

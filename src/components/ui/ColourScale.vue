@@ -5,7 +5,11 @@
     style="transition: max-height 2s linear;"
     :style="{ 'max-height': showEdit ? '200rem' : '2rem' }"
   >
-    <div v-show="!showEdit" class="absolute top-0 left-0 w-full h-full hover-blur text-center has-text-white" @click="editClick">
+    <div
+      v-show="!showEdit"
+      class="absolute top-0 left-0 w-full h-full hover-blur text-center has-text-white"
+      @click="editClick"
+    >
       Edit
     </div>
     <div>
@@ -44,23 +48,28 @@
     <transition name="fade">
       <div class="p-2 mt-4" v-if="showEdit">
         <b-field label="Type">
-
           <b-field>
             <b-radio-button v-model="type" class="w-1/2" native-value="linear">
               <span>Linear</span>
             </b-radio-button>
 
-            <b-radio-button v-model="type" class="w-1/2" native-value="progression">
+            <b-radio-button
+              v-model="type"
+              class="w-1/2"
+              native-value="progression"
+            >
               <span>Discrete</span>
             </b-radio-button>
           </b-field>
-
         </b-field>
 
         <b-field label="Method">
-
           <b-field>
-            <b-radio-button v-model="method" class="w-1/2" native-value="metric">
+            <b-radio-button
+              v-model="method"
+              class="w-1/2"
+              native-value="metric"
+            >
               <span>Metric</span>
             </b-radio-button>
 
@@ -68,7 +77,6 @@
               <span>Rank</span>
             </b-radio-button>
           </b-field>
-
         </b-field>
 
         <div v-if="type == 'linear'"></div>
@@ -120,7 +128,12 @@
           v-if="type == 'linear'"
         ></div>
 
-        <b-modal style="position: absolute!important;" :active.sync="showMidColourModal" has-modal-card trap-focus>
+        <b-modal
+          style="position: absolute!important;"
+          :active.sync="showMidColourModal"
+          has-modal-card
+          trap-focus
+        >
           <div
             class="box has-text-centered"
             style="padding: 0!important; padding-bottom: 1rem!important;"
@@ -359,6 +372,6 @@ export default {
   opacity: 0;
   transition: opacity 0.5s;
   backdrop-filter: blur(5px);
-  background-color: rgba(255, 255, 255, .15);
+  background-color: rgba(255, 255, 255, 0.15);
 }
 </style>

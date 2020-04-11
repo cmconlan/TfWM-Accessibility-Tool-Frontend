@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && npx license-checker --json --out public/licenses.json --customPath public/license_format.json --production --direct --relativeLicensePath",
     "cypress:open": "cypress open",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",

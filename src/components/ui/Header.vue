@@ -28,6 +28,23 @@
               </div>
             </transition>
           </div>
+          <div class="level-item has-background-primary z-50">
+            <div
+              class="mr-4 cursor-pointer flex flex-row hover:text-blue-500 transition duration-100"
+              @click="showLicenses = true"
+            >
+              <BookInformationVariant />
+            </div>
+            <b-modal
+              :active.sync="showLicenses"
+              width="75%"
+              id="license-modal"
+              has-modal-card
+              trap-focus
+            >
+              <LicenseModal />
+            </b-modal>
+          </div>
         </div>
       </nav>
     </template>
@@ -36,18 +53,23 @@
 
 <script>
 import Cogs from "vue-material-design-icons/Cogs.vue";
+import LicenseModal from "@/components/modals/LicenseModal";
 import MenuLeft from "vue-material-design-icons/MenuLeft.vue";
 import MenuRight from "vue-material-design-icons/MenuRight.vue";
+import BookInformationVariant from "vue-material-design-icons/BookInformationVariant.vue";
 
 export default {
   components: {
     Cogs,
     MenuLeft,
-    MenuRight
+    MenuRight,
+    LicenseModal,
+    BookInformationVariant
   },
   data() {
     return {
-      showSettings: false
+      showSettings: false,
+      showLicenses: false
     };
   },
   computed: {
@@ -74,5 +96,9 @@ export default {
 /* .slide-fade-leave-active below version 2.1.8 */ {
   transform: translateX(10px);
   opacity: 0;
+}
+
+#license-modal .animation-content {
+  width: 75%;
 }
 </style>

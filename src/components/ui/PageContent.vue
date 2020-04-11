@@ -216,7 +216,7 @@ export default {
 
 <style lang="scss">
 .multipane-resizer {
-  width: 20px!important;
+  width: 20px !important;
 }
 .custom-resizer {
   width: 100%;
