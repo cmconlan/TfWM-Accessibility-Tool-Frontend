@@ -29,13 +29,13 @@
       <div class="w-1/2 p-1">
         <a class="button is-dark w-full" @click="apply">
           <Check />
-          Back
+          Confirm
         </a>
       </div>
       <div class="w-1/2 p-1">
         <a class="button is-danger w-full" @click="remove">
           <TrashCan />
-          Remove
+          Reset
         </a>
       </div>
     </div>
