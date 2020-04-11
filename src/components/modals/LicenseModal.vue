@@ -57,14 +57,11 @@
         </div>
         <div class="level-right">
           <div class="level-item">
-            <button
-              class="button float-right is-primary"
-              type="button"
-              @click="downloadCsv"
-            >
-              Download License Info
-            </button>
-            <iframe id="download-iframe" style="display:none;"></iframe>
+            <a href="/licenses.json" download target="_blank">
+              <button class="button float-right is-primary" type="button">
+                Download License Info
+              </button>
+            </a>
           </div>
         </div>
       </nav>
@@ -86,9 +83,6 @@ export default {
     this.loadLicenseData();
   },
   methods: {
-    downloadCsv() {
-      document.getElementById("download-iframe").src = "/licenses.json";
-    },
     loadLicenseData() {
       this.loading = true;
       axios
