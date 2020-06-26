@@ -8,7 +8,7 @@
 
     <template slot="start">
       <h1 class="title is-3 has-text-light m-1 ml-3 hidden sm:block">Transport Access Tool</h1>
-      <b-tag rounded size="is-medium shadow is-accent ml-2 font-bold" style="margin-top: .3rem;">BETA</b-tag>
+      <b-tag rounded class="shadow is-accent ml-2 font-bold" style="margin-top: .3rem;">BETA</b-tag>
     </template>
 
     <template slot="end">
