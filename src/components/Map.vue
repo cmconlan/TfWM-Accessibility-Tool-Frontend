@@ -170,7 +170,7 @@ export default {
         layer.on("mouseover", function() {
           if (this.feature.id != selectedOA) {
             this.setStyle({
-              weight: 0.5,
+              weight: 0,
               color: "#000000",
               fillOpacity: 1
             });
@@ -180,7 +180,7 @@ export default {
         layer.on("mouseout", function() {
           if (this.feature.id != selectedOA) {
             this.setStyle({
-              weight: 0.5,
+              weight: 0,
               color: "#050505",
               fillOpacity: 0.4
             });
@@ -254,7 +254,7 @@ export default {
         if (!metric) {
           this.OAsLoaded++;
           return {
-            weight: 0.1,
+            weight: 0,
             color: "#050505",
             opacity: 1,
             fillColor: "#A0A0A0",
@@ -267,7 +267,7 @@ export default {
         this.OAsLoaded++;
 
         return {
-          weight: isSelected ? 1 : 0.5,
+          weight: isSelected ? 1 : 0,
           color: isSelected ? "#000000" : "#050505",
           opacity: 1,
           fillColor: colour,
