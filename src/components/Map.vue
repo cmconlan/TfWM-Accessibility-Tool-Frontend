@@ -199,6 +199,7 @@ export default {
         ](feature.id);
         var rankCount = this.$store.getters["metricStore/populationMetricMax"]
           .rank;
+        var mean = this.$store.getters["metricStore/highLevelAccessibilityMetrics"].Mean;
 
         var areaDiv = `<div>Area ID: ${feature.id}</div>`;
         var populationDiv = `<div>Population: ${feature.properties.population}</div>`;
@@ -218,12 +219,22 @@ export default {
         } else {
           accessibilityMetricDiv = `<div>Accessibility Metric: Unknown</div>`;
         }
+        var meanDiv;
+        if (accessibilityMetric && mean) {
+          const difference = accessibilityMetric.metric - mean;
+          meanDiv = `<div>Accessibility Metric: ${difference > 0 ? '+' : ''}${difference.toFixed(
+            2
+          )} relative to mean</div>`;
+        } else {
+          meanDiv = ``;
+        }
 
         layer.bindTooltip(
           areaDiv +
             populationDiv +
             populationMetricDiv +
-            accessibilityMetricDiv,
+            accessibilityMetricDiv +
+            meanDiv,
           { permanent: false, sticky: true }
         );
       }).bind(this);
