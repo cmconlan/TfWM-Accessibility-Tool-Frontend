@@ -222,9 +222,9 @@ export default {
         var meanDiv;
         if (accessibilityMetric && mean) {
           const difference = accessibilityMetric.metric - mean;
-          meanDiv = `<div>Accessibility Metric: ${difference > 0 ? '+' : ''}${difference.toFixed(
+          meanDiv = `<div>Accessibility Relative to Mean: ${difference > 0 ? '+' : ''}${difference.toFixed(
             2
-          )} relative to mean</div>`;
+          )}</div>`;
         } else {
           meanDiv = ``;
         }
