@@ -1,7 +1,7 @@
 <template>
   <b-navbar
     class="is-primary overflow-hidden h-12"
-    style="min-height: 0!important;"
+    style="min-height: 0!important; z-index:9;"
     :mobile-burger="false"
   >
     <template slot="brand"></template>

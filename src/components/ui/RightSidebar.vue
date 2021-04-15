@@ -60,6 +60,44 @@
           @close="closeFilter"
         />
       </transition>
+
+      <div class="p-4 text-right" v-if="!currentFilter">
+        <h2
+          class="subtitle mx-3 mt-8 has-text-dark is-5 text-right"
+          style="margin-bottom: 1rem;"
+        >
+          <b>High Level Metrics</b>
+        </h2>
+        <div v-for="(metric, value) in highLevelAccessibilityMetrics" :key="metric" class="columns" style="margin: 0;">
+          <div class="column is-6 font-bold">{{ value }}:</div>
+          <div class="column text-right truncate">{{ metric }}</div>
+        </div>
+      </div>
+
+      <div class="p-4" v-if="!currentFilter">
+        <h2
+          class="subtitle mx-3 mt-8 has-text-dark is-5 text-right"
+          style="margin-bottom: 1rem;"
+        >
+          <b>Demographic Metrics</b>
+        </h2>
+        <a @click="showDemographicModal=true" class="float-right text-right">
+          View demographic metrics
+          <b-icon
+            size="is-small"
+            icon="open-in-new"
+          />
+        </a>
+        <b-modal
+          :active.sync="showDemographicModal"
+          width="75%"
+          has-modal-card
+          trap-focus
+        >
+          <DemographicMetricsModal />
+        </b-modal>
+      </div>
+
       <div
         class="absolute bottom-0 w-full pr-16 py-4 hover:bg-gray-300 cursor-pointer text-right"
         style="transition: 0.2s"
@@ -73,23 +111,27 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import TimeStrata from "@/components/filters/TimeStrata";
 import FilterHeader from "@/components/filters/FilterHeader";
 import PointsOfInterest from "@/components/filters/PointsOfInterest";
-import TimeStrata from "@/components/filters/TimeStrata";
 import AccessibilityMetric from "@/components/filters/AccessibilityMetric";
 import ArrowCollapseRight from "vue-material-design-icons/ArrowCollapseRight.vue";
+import DemographicMetricsModal from "@/components/modals/DemographicMetricsModal";
 
 export default {
   components: {
+    TimeStrata,
     FilterHeader,
     PointsOfInterest,
-    TimeStrata,
+    ArrowCollapseRight,
     AccessibilityMetric,
-    ArrowCollapseRight
+    DemographicMetricsModal
   },
   data() {
     return {
-      currentFilter: null
+      currentFilter: null,
+      showDemographicModal: false,
     };
   },
   methods: {
@@ -100,6 +142,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      highLevelAccessibilityMetrics: "metricStore/highLevelAccessibilityMetrics"
+    }),
     poiFilterString() {
       var result = "";
 

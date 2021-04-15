@@ -216,7 +216,9 @@ const metricStore = {
     populationMetrics: [],
     accessibilityMetrics: [],
     populationMetricError: false,
-    accessibilityMetricError: false
+    accessibilityMetricError: false,
+    highLevelAccessibilityMetrics: [],
+    demographicLevelAccessibilityMetrics: [],
   },
   mutations: {
     setOutputAreas(state, value) {
@@ -233,7 +235,13 @@ const metricStore = {
     },
     setAccessibilityMetricError(state, value) {
       state.accessibilityMetricError = value;
-    }
+    },
+    setHighLevelAccessibilityMetrics(state, value) {
+      state.highLevelAccessibilityMetrics = value;
+    },
+    setDemographicLevelAccessibilityMetrics(state, value) {
+      state.demographicLevelAccessibilityMetrics = value;
+    },
   },
   actions: {
     fetchOutputAreas({ commit }) {
@@ -261,7 +269,9 @@ const metricStore = {
           rootGetters["parameterStore/accessibilityMetricParamString"]
         )
         .then(response => {
-          commit("setAccessibilityMetrics", response.data);
+          commit("setAccessibilityMetrics", response.data['oa-level']);
+          commit("setHighLevelAccessibilityMetrics", response.data['high-level']);
+          commit("setDemographicLevelAccessibilityMetrics", response.data['demographic-level']);
         })
         .catch(() => {
           commit("setAccessibilityMetricError", true);
@@ -290,6 +300,12 @@ const metricStore = {
     },
     accessibilityMetric: state => id => {
       return state.accessibilityMetrics[id];
+    },
+    highLevelAccessibilityMetrics: state => {
+      return state.highLevelAccessibilityMetrics;
+    },
+    demographicLevelAccessibilityMetrics: state => {
+      return state.demographicLevelAccessibilityMetrics;
     },
     populationMetricMin: state => {
       if (state.populationMetrics.length == 0) {
