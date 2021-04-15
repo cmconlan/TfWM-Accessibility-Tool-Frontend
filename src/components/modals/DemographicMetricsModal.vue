@@ -22,35 +22,9 @@
             {{ props.row.ARM }}
           </b-table-column>
 
-          <b-table-column field="JI" label="Jain's Index" sortable>
+          <!-- TODO: Fix this on the API side -->
+          <!-- <b-table-column field="JI" label="Jain's Index" sortable>
             {{ props.row.JI }}
-          </b-table-column>
-
-          <!-- <b-table-column field="version" label="Version">
-            {{ props.row.version }}
-          </b-table-column>
-
-          <b-table-column field="description" label="Description">
-            {{ props.row.description }}
-          </b-table-column>
-
-          <b-table-column field="licenses" label="License" sortable>
-            {{ props.row.licenses }}
-          </b-table-column>
-
-          <b-table-column field="links" label="Links">
-            <b-tooltip
-              v-for="link in props.row.links"
-              :label="link.tooltip"
-              :key="link.icon"
-            >
-              <a :href="link.link" target="_">
-                <b-icon
-                  class="mr-1 cursor-pointer text-black hover:text-blue-500 transition duration-100"
-                  :icon="link.icon"
-                />
-              </a>
-            </b-tooltip>
           </b-table-column> -->
         </template>
       </b-table>
