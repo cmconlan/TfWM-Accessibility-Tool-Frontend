@@ -19,7 +19,7 @@
     "leaflet": "^1.7.1",
     "luxon": "^1.26.0",
     "moment": "^2.29.1",
-    "node-sass": "^5.0.0",
+    "node-sass": "^7.0.0",
     "tailwindcss": "^1.9.6",
     "vue": "^2.6.12",
     "vue-color": "^2.8.1",
